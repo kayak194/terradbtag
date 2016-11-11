@@ -1,0 +1,107 @@
+﻿<Window x:Class="projektseminar_test.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:projektseminar_test"
+        mc:Ignorable="d"
+        Title="TerraDB" Height="350" Width="1038.743" x:Name="Window" WindowState="Maximized" Icon="globe.ico">
+    <Window.DataContext>
+        <local:MainViewModel/>
+    </Window.DataContext>
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+        
+        <Menu Grid.Row="0">
+            <MenuItem Header="Datenbank">
+                <MenuItem Header="Laden" Command="{Binding LoadDatabaseCommand}"/>
+                <MenuItem Header="Leeren" Command="{Binding ClearDatabaseCommand}" IsEnabled="{Binding IsReady}"/>
+            </MenuItem>
+            <MenuItem Header="Daten">
+                <MenuItem Header="Neuer Datensatz..." Command="{Binding NewBusinessObjectCommand}" IsEnabled="{Binding IsReady}"/>
+                <Separator/>
+                <MenuItem Header="TerraDB XML konvertieren" Command="{Binding ConvertTerraDbCommand}"/>
+                <MenuItem Header="TerraDB Daten importieren"  Command="{Binding GenerateDataCommand}" IsEnabled="{Binding IsReady}"/>
+            </MenuItem>
+        </Menu>
+        
+        <Grid Row="1" Margin="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="250"/>
+            </Grid.ColumnDefinitions>
+           
+            <ListBox SelectionMode="Multiple" ItemsSource="{Binding Categories}"/>
+
+            <TextBox Grid.Column="2" Text="{Binding SearchRequest}" IsEnabled="{Binding IsReady}"></TextBox>
+            <ScrollViewer Grid.Column="1">
+                <ItemsControl ItemsSource="{Binding BusinessObjectList}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="3">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*" MinWidth="150"/>
+                                    <ColumnDefinition Width="75"/>
+                                    <ColumnDefinition Width="75"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="{Binding Id}" Padding="3"/>
+                                <TextBlock Grid.Column="1" Text="{Binding Name}" Padding="3"/>
+                                <Button    Grid.Column="2" Content="Edit" Command="{Binding DataContext.EditBusinessObjectCommand, ElementName=Window}" CommandParameter="{Binding}"/>
+                                <Button    Grid.Column="3" Content="Delete" Command="{Binding DataContext.DeleteBusinessObjectCommand, ElementName=Window}" CommandParameter="{Binding}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="100"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid Row="0" Margin="0, 0, 0, 3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition  Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox Grid.Column="0" Grid.Row="0" Padding="5"/>
+                    <Button Grid.Column="1" Grid.Row="0" Content="Suchen" Padding="5" Margin="3, 0, 0, 0"/>
+                </Grid>
+                <Label Grid.Row="1" Content="Ausgewählte Tags"/>
+                <ListBox Grid.Row="2" />
+                <Label Grid.Row="3" Content="In Beziehung stehende Tags"></Label>
+                <ListBox Grid.Row="4" ItemsSource="{Binding Tags}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Content}"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+        </Grid>
+
+        <StatusBar Grid.Row="2">
+            <ProgressBar Width="100" Height="20" Minimum="0" Maximum="{Binding MaximumProgressValue}" Value="{Binding CurrentProgressValue}"   Visibility="{Binding IsInProgress, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            <TextBlock  Visibility="{Binding IsInProgress, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <TextBlock.Text>
+                    <MultiBinding StringFormat="{}{0}/{1}">
+                        <Binding Path="CurrentProgressValue"/>
+                        <Binding Path="MaximumProgressValue"/>
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
+        </StatusBar>
+    </Grid>
+    
+</Window>
