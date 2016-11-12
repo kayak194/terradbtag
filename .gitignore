@@ -1,0 +1,6 @@
+.idea
+.vs
+.git
+packages
+terradbtag/bin
+terradb/obj
