@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace projektseminar_test.Models
+namespace terradbtag.Models
 {
     public class Tag : INotifyPropertyChanged
     {

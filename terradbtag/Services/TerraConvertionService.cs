@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Xml;
-using projektseminar_test.Framework;
+using terradbtag.Framework;
 
-namespace projektseminar_test.Services
+namespace terradbtag.Services
 {
     class TerraConvertionService : Service
     {

@@ -4,9 +4,9 @@ using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Data;
-using projektseminar_test.Models;
+using terradbtag.Models;
 
-namespace projektseminar_test.Converter
+namespace terradbtag.Converter
 {
     class TagCollectionToStringConverter: IValueConverter
     {

@@ -1,10 +1,10 @@
-﻿<Window x:Class="projektseminar_test.Views.TagCollectionEditor"
+﻿<Window x:Class="terradbtag.Views.TagCollectionEditor"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:projektseminar_test"
-        xmlns:viewModels="clr-namespace:projektseminar_test.ViewModels"
+        xmlns:local="clr-namespace:terradbtag"
+        xmlns:viewModels="clr-namespace:terradbtag.ViewModels"
         mc:Ignorable="d"
         Title="TagCollection Editor" Height="300" Width="300" WindowStyle="ToolWindow" WindowStartupLocation="CenterScreen">
 

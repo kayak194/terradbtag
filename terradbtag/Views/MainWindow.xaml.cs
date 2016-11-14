@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace projektseminar_test.Views
+namespace terradbtag.Views
 {
     /// <summary>
     /// Interaktionslogik für MainWindow.xaml

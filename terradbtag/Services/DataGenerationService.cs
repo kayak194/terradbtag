@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using projektseminar_test.Framework;
-using projektseminar_test.Models;
+using terradbtag.Framework;
+using terradbtag.Models;
 
-namespace projektseminar_test.Services
+namespace terradbtag.Services
 {
     class DataGenerationService : Service
     {

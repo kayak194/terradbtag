@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace projektseminar_test.Properties
+namespace terradbtag.Properties
 {
 
 

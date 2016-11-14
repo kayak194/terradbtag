@@ -2,7 +2,7 @@
 using System.Data;
 using System.Data.SQLite;
 
-namespace projektseminar_test.Framework
+namespace terradbtag.Framework
 {
     class SqliteDatabaseConnection
     {

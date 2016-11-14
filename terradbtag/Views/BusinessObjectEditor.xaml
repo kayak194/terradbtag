@@ -1,11 +1,11 @@
-﻿<Window x:Class="projektseminar_test.Views.BusinessObjectEditor"
+﻿<Window x:Class="terradbtag.Views.BusinessObjectEditor"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:projektseminar_test"
-        xmlns:viewModels="clr-namespace:projektseminar_test.ViewModels"
-        xmlns:converter="clr-namespace:projektseminar_test.Converter"
+        xmlns:local="clr-namespace:terradbtag"
+        xmlns:viewModels="clr-namespace:terradbtag.ViewModels"
+        xmlns:converter="clr-namespace:terradbtag.Converter"
         mc:Ignorable="d"
         Title="BusinessObject Editor" Height="350" Width="350" WindowStartupLocation="CenterScreen" WindowStyle="ToolWindow">
     <Window.Resources>

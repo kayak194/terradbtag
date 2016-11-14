@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace projektseminar_test.Models
+namespace terradbtag.Models
 {
     class BusinessObject
     {

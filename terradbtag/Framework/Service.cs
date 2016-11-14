@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 
-namespace projektseminar_test.Framework
+namespace terradbtag.Framework
 {
     class Service
     {

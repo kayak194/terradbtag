@@ -1,7 +1,9 @@
-﻿using projektseminar_test.Framework;
-using projektseminar_test.Models;
+﻿using System.Diagnostics;
+using System.Linq;
+using terradbtag.Framework;
+using terradbtag.Models;
 
-namespace projektseminar_test.Services
+namespace terradbtag.Services
 {
     class TagLoadingService: Service
     {
@@ -9,14 +11,28 @@ namespace projektseminar_test.Services
 
         protected override bool ServiceAction(object args)
         {
-            var sql =
-                "SELECT content FROM Tag WHERE business_object IN (SELECT DISTINCT business_object FROM Tag) GROUP BY content ORDER BY COUNT(*) DESC";
-            var tagReader = Connection.Query(sql);
+            var query = args as ISearchQuery;
 
+            if (query == null) return false;
+
+            var where = "";
+            if (query.SelectedTags.Count > 0)
+            {
+                var filterList = "'"+string.Join("', '", query.SelectedTags.Select(tag => tag.Content)) + "'";
+                where = $"JOIN (SELECT business_object as bo, content as cont FROM Tag WHERE content IN ({filterList})) as t2 ON business_object = bo  WHERE content NOT IN ({filterList}) ";
+            }
+
+            var sql =
+                $"SELECT content FROM Tag {where} GROUP BY content HAVING COUNT(content) > 1 ORDER BY COUNT(content) DESC LIMIT {query.TagLimit}";
+            var tagReader = Connection.Query(sql);
+            Debug.WriteLine(sql);
+            var i = 0;
+            ReportProgress(i,query.TagLimit);
             while (tagReader.Read())
             {
-                ReportProgress(0,1, new Tag{Content = tagReader["content"].ToString()});
+                ReportProgress(i++,query.TagLimit, new Tag{Content = tagReader["content"].ToString()});
             }
+
             return true;
         }
     }

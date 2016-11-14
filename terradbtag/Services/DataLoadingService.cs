@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
-using projektseminar_test.Framework;
+using System.Linq;
+using terradbtag.Framework;
+using terradbtag.Models;
 
-namespace projektseminar_test.Services
+namespace terradbtag.Services
 {
     class DataLoadingService: Service
     {
@@ -9,14 +11,33 @@ namespace projektseminar_test.Services
 
         protected override bool ServiceAction(object args)
         {
-            var list = args as IList<string>;
-            if (list == null) return false;
-            var count = list.Count;
-            ReportProgress(0, count);
-            var i = 0;
-            foreach (var id in list)
+            var query = args as ISearchQuery;
+            if (query == null) return false;
+
+            var tagFilter = "";
+            if (query.SelectedTags.Count > 0)
             {
-                ReportProgress(i++, count, Repository.Find(id));
+                var filterList = "'"+string.Join("', '", query.SelectedTags.Select(tag => tag.Content)) + "'";
+                tagFilter = $"AND content IN ({filterList})";
+            }
+
+            var textFilterSql = "";
+            if (query.TextQuery != "")
+            {
+                textFilterSql = $"AND (name LIKE '%{query.TextQuery}%' OR data LIKE '%{query.TextQuery}%')";
+            }
+
+            var sql =
+                $"SELECT id FROM BusinessObject, Tag WHERE id = business_object {textFilterSql} {tagFilter} GROUP BY id HAVING COUNT(id) > 1 ORDER BY COUNT(id) DESC LIMIT {query.ResultLimit}";
+
+            var result = Repository.Connection.Query(sql);
+
+            ReportProgress(0, query.ResultLimit);
+
+            var i = 0;
+            while (result.Read())
+            {
+                ReportProgress(i++, query.ResultLimit, Repository.Find(result["id"].ToString()));
             }
             return true;
         }

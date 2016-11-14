@@ -2,10 +2,10 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
-using projektseminar_test.Framework;
-using projektseminar_test.Models;
+using terradbtag.Framework;
+using terradbtag.Models;
 
-namespace projektseminar_test.ViewModels
+namespace terradbtag.ViewModels
 {
     class BusinessObjectEditorViewModel : INotifyPropertyChanged
     {

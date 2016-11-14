@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace projektseminar_test.Framework
+namespace terradbtag.Framework
 {
     public class RelayCommand : ICommand
     {

@@ -7,11 +7,11 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
 using Microsoft.Win32;
-using projektseminar_test.Framework;
-using projektseminar_test.Models;
-using projektseminar_test.Services;
+using terradbtag.Framework;
+using terradbtag.Models;
+using terradbtag.Services;
 
-namespace projektseminar_test.ViewModels
+namespace terradbtag.ViewModels
 {
     class MainViewModel : INotifyPropertyChanged
     {
@@ -23,6 +23,7 @@ namespace projektseminar_test.ViewModels
         private int _maximumProgressValue = 1;
         private bool _isInProgress;
         public event PropertyChangedEventHandler PropertyChanged;
+
 
         private Repository Repository { get; set; }
 
@@ -39,6 +40,10 @@ namespace projektseminar_test.ViewModels
         public ICommand DeleteBusinessObjectCommand { get; set; }
         public ICommand EditBusinessObjectCommand { get; set; }
         public ICommand ClearDatabaseCommand { get; set; }
+        public ICommand SearchCommand { get; set; }
+
+        public ICommand SelectTag { get; set; }
+        public ICommand UnSelectTag { get; set; }
 
         private SqliteDatabaseConnection Connection { get; } = new SqliteDatabaseConnection();
 
@@ -57,7 +62,49 @@ namespace projektseminar_test.ViewModels
             GenerateDataCommand = new RelayCommand(ExecuteGenerateDataCommand);
             ConvertTerraDbCommand = new RelayCommand(ExecuteConvertTerraDbCommand);
             ClearDatabaseCommand = new RelayCommand(ExecuteClearDatabaseCommand);
+            SearchCommand = new RelayCommand(ExecuteSearchCommand);
+            SelectTag = new RelayCommand(ExecuteSelectTagCommand);
+            UnSelectTag = new RelayCommand(ExecuteUnselectTag);
             IsReady = false;
+        }
+
+        private void ExecuteUnselectTag(object o)
+        {
+            var tag = o  as Tag;
+
+            if(tag == null) return;
+
+            SelectedTags.Remove(tag);
+
+            UpdateSearchResult();
+        }
+
+        private void ExecuteSelectTagCommand(object o)
+        {
+            var tag = o  as Tag;
+
+            if(tag == null) return;
+
+            SelectedTags.Add(tag);
+
+             UpdateSearchResult();
+        }
+
+        private void ExecuteSearchCommand(object o)
+        {
+            UpdateSearchResult();
+        }
+
+        private void UpdateSearchResult()
+        {
+            var query = new SearchQuery
+            {
+                SelectedTags = SelectedTags,
+                TextQuery = SearchRequest
+            };
+
+            LoadTags(query);
+            LoadBusinessObjects(query);
         }
 
         private void ExecuteConvertTerraDbCommand(object o)
@@ -186,7 +233,7 @@ namespace projektseminar_test.ViewModels
 
             LoadAllDataFromDatabase();
 
-            LoadTags();
+            LoadTags(SearchQuery.NoFilter);
 
             IsReady = true;
         }
@@ -232,7 +279,7 @@ namespace projektseminar_test.ViewModels
             MessageBox.Show(message, "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
-        private void LoadBusinessObjects(List<string> ids)
+        private void LoadBusinessObjects(ISearchQuery query)
         {
             try
             {
@@ -254,7 +301,7 @@ namespace projektseminar_test.ViewModels
                 };
 
                 BusinessObjectList.Clear();
-                srv.Execute(ids);
+                srv.Execute(query);
             }
             catch (Exception ex)
             {
@@ -264,7 +311,7 @@ namespace projektseminar_test.ViewModels
 
         private void LoadAllDataFromDatabase()
         {
-            LoadBusinessObjects(Repository.FindAll());
+            LoadBusinessObjects(SearchQuery.NoFilter);
         }
 
         private void ExecutePropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
@@ -341,25 +388,30 @@ namespace projektseminar_test.ViewModels
             set { _tags = value; OnPropertyChanged(); }
         }
 
-        private void LoadTags()
+        public ObservableCollection<Tag> SelectedTags { get; set; } = new ObservableCollection<Tag>();
+
+        private void LoadTags(ISearchQuery query)
         {
             Tags.Clear();
             var srv = new TagLoadingService {Connection = Connection};
             srv.ProgressChanged += (sender, tuple) =>
             {
-                Tags.Add(tuple.Item3 as Tag);
+                if(tuple.Item3 != null)
+                    Tags.Add(tuple.Item3 as Tag);
             };
             srv.Finished += (sender, b) =>
             {
-                if(!b)
-                    AlertError(srv.Error);
+                if(!b) AlertError(srv.Error);
             };
-            srv.Execute();
+            srv.Execute(query);
         }
 
         private void ExecuteSearchRequest()
         {
+            var searchQuery = new SearchQuery()
+            {
 
+            };
         }
     }
 }

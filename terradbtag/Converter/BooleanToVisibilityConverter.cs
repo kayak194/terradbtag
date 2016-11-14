@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-namespace projektseminar_test.Converter
+namespace terradbtag.Converter
 {
     class BooleanToVisibilityConverter:IValueConverter
     {
