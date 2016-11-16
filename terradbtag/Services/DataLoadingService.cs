@@ -28,7 +28,7 @@ namespace terradbtag.Services
             }
 
             var sql =
-                $"SELECT id FROM BusinessObject, Tag WHERE id = business_object {textFilterSql} {tagFilter} GROUP BY id HAVING COUNT(id) > 1 ORDER BY COUNT(id) DESC LIMIT {query.ResultLimit}";
+                $"SELECT id FROM BusinessObject, Tag WHERE id = business_object {textFilterSql} {tagFilter} GROUP BY id ORDER BY COUNT(id) DESC LIMIT {query.ResultLimit}";
 
             var result = Repository.Connection.Query(sql);
 
