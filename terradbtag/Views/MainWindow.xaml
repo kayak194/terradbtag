@@ -82,7 +82,7 @@
                         <ColumnDefinition />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <TextBox Grid.Column="0" Grid.Row="0" Padding="5" />
+                    <TextBox Grid.Column="0" Grid.Row="0" Padding="5" Text="{Binding SearchRequest}"/>
                     <Button Command="{Binding SearchCommand}" Grid.Column="1" Grid.Row="0" Content="Suchen" Padding="5"
                             Margin="3, 0, 0, 0" />
                 </Grid>

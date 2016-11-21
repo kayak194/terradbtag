@@ -79,10 +79,34 @@ namespace terradbtag.Services
                     var liegtAnReader = Connection.Query(liegtAnSql);
                     while (liegtAnReader.Read())
                     {
-                        tagsList.Add(liegtAnReader["F_NAME"].ToString());
-                        tagsList.Add(liegtAnReader["S_NAME"].ToString());
-                        tagsList.Add(liegtAnReader["M_NAME"].ToString());
+                        var fluss = liegtAnReader["F_NAME"].ToString();
+                        var see = liegtAnReader["S_NAME"].ToString();
+                        var meer = liegtAnReader["M_NAME"].ToString();
+
+                        if (fluss != "")
+                        {
+                            tagsList.Add(fluss);
+                            tagsList.Add("fluss");
+                        }
+
+                        if (see != "")
+                        {
+                            tagsList.Add(see);
+                            tagsList.Add("see");
+                        }
+
+                        if (meer != "")
+                        {
+                            tagsList.Add(meer);
+                            tagsList.Add("meer");
+                        }
                     }
+
+
+                    var liegtInSql = $"SELECT L_NAME FROM LAND WHERE L_ID = '{lidVal}'";
+                    var liegtInVal = Connection.Scalar(liegtInSql);
+                    if(liegtInVal != null)
+                        tagsList.Add(liegtInVal.ToString());
                 }
 
                 var geoTableName = $"GEO_{entity.TableName}";
@@ -133,7 +157,12 @@ namespace terradbtag.Services
                 new Entity("WUESTE", "W", "wueste", new[] {"FLAECHE"}, new[] {"WUESTENART"}),
             };
 
-            Connection.Connect("terra.sqlite");
+
+            var opener = new OpenFileService();
+
+            if (!opener.OpenFile(OpenFileService.SqliteDatabaseFilter)) return false;
+
+            Connection.Connect(opener.SelectedFile);
 
             var typeCount = entityList.Count;
             var i = 1;

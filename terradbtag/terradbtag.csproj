@@ -93,6 +93,7 @@
     <Compile Include="Services\DatabaseService.cs" />
     <Compile Include="Services\DataGenerationService.cs" />
     <Compile Include="Services\DataLoadingService.cs" />
+    <Compile Include="Services\OpenFileService.cs" />
     <Compile Include="Services\TagLoadingService.cs" />
     <Compile Include="Services\TerraConvertionService.cs" />
     <Compile Include="ViewModels\BusinessObjectEditorViewModel.cs" />

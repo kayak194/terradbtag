@@ -12,28 +12,34 @@ namespace terradbtag.Services
             var connection = new SqliteDatabaseConnection();
 
             var doc = new XmlDocument();
-            doc.Load("terra.xml");
+
+            var opener = new OpenFileService();
+            if (!opener.OpenFile(OpenFileService.XmlFileFilter)) return false;
+            doc.Load(opener.SelectedFile);
 
             var nodes = doc.DocumentElement?.ChildNodes;
 
             if (nodes == null) return false;
-            const string dbFileName = "terra.sqlite";
-            if (File.Exists(dbFileName)) File.Delete(dbFileName);
 
-            connection.Connect(dbFileName);
+            opener.AcceptNonExistingFiles = true;
+            opener.ForceNewFile = true;
+
+            if (!opener.OpenFile(OpenFileService.SqliteDatabaseFilter)) return false;
+
+            connection.Connect(opener.SelectedFile);
 
             connection.Execute(
-                "CREATE TABLE LAND(L_ID TEXT, L_NAME TEXT, EINWOHNER REAL, FLAECHE REAL, HAUPTSTADT, LT_ID TEXT);" +
-                "CREATE TABLE STADT(ST_NAME TEXT, L_ID TEXT, LT_ID TEXT, EINWOHNER INTEGER, BREITE REAL, LAENGE REAL);" +
-                "CREATE TABLE LANDTEIL(LT_ID TEXT, L_ID TEXT, LT_NAME TEXT, EINWOHNER REAL, LAGE TEXT, HAUPTSTADT TEXT);" +
-                "CREATE TABLE KONTINENT(K_NAME TEXT, FLAECHE REAL);" +
-                "CREATE TABLE BERG(B_NAME TEXT, GEBIRGE TEXT, HOEHE REAL, JAHR INTEGER, LAENGE REAL, BREITE REAL);" +
-                "CREATE TABLE EBENE(E_NAME TEXT, HOEHE REAL, FLAECHE REAL);" +
-                "CREATE TABLE FLUSS(F_NAME TEXT, FLUSS TEXT, SEE TEXT, MEER TEXT, LAENGE INTEGER, LAENGEU REAL, BREITEU REAL, LAENGEM REAL, BREITEM REAL);" +
-                "CREATE TABLE INSEL(I_NAME TEXT, INSELGRUPPE TEXT, FLAECHE REAL, LAENGE REAL, BREITE REAL);" +
-                "CREATE TABLE MEER(M_NAME TEXT, TIEFE REAL);" +
-                "CREATE TABLE SEE(S_NAME TEXT, TIEFE REAL, FLAECHE REAL);" +
-                "CREATE TABLE WUESTE(W_NAME TEXT, FLAECHE REAL, WUESTENART TEXT);" +
+                "CREATE TABLE LAND(L_ID TEXT PRIMARY KEY, L_NAME TEXT, EINWOHNER REAL, FLAECHE REAL, HAUPTSTADT, LT_ID TEXT);" +
+                "CREATE TABLE STADT(ST_NAME TEXT PRIMARY KEY, L_ID TEXT, LT_ID TEXT, EINWOHNER INTEGER, BREITE REAL, LAENGE REAL);" +
+                "CREATE TABLE LANDTEIL(LT_ID TEXT, L_ID TEXT, LT_NAME TEXT, EINWOHNER REAL, LAGE TEXT, HAUPTSTADT TEXT, PRIMARY KEY(L_ID, LT_ID));" +
+                "CREATE TABLE KONTINENT(K_NAME TEXT PRIMARY KEY, FLAECHE REAL);" +
+                "CREATE TABLE BERG(B_NAME TEXT PRIMARY KEY, GEBIRGE TEXT, HOEHE REAL, JAHR INTEGER, LAENGE REAL, BREITE REAL);" +
+                "CREATE TABLE EBENE(E_NAME TEXT PRIMARY KEY, HOEHE REAL, FLAECHE REAL);" +
+                "CREATE TABLE FLUSS(F_NAME TEXT PRIMARY KEY, FLUSS TEXT, SEE TEXT, MEER TEXT, LAENGE INTEGER, LAENGEU REAL, BREITEU REAL, LAENGEM REAL, BREITEM REAL);" +
+                "CREATE TABLE INSEL(I_NAME TEXT PRIMARY KEY, INSELGRUPPE TEXT, FLAECHE REAL, LAENGE REAL, BREITE REAL);" +
+                "CREATE TABLE MEER(M_NAME TEXT PRIMARY KEY, TIEFE REAL);" +
+                "CREATE TABLE SEE(S_NAME TEXT PRIMARY KEY, TIEFE REAL, FLAECHE REAL);" +
+                "CREATE TABLE WUESTE(W_NAME TEXT PRIMARY KEY, FLAECHE REAL, WUESTENART TEXT);" +
                 "CREATE TABLE GEO_BERG(L_ID TEXT, LT_ID TEXT, B_NAME TEXT);" +
                 "CREATE TABLE GEO_EBENE(L_ID TEXT, LT_ID TEXT, E_NAME TEXT);" +
                 "CREATE TABLE GEO_FLUSS(L_ID TEXT, LT_ID TEXT, F_NAME TEXT);" +
@@ -45,7 +51,7 @@ namespace terradbtag.Services
                 "CREATE TABLE LIEGT_AN(L_ID TEXT, LT_ID TEXT, ST_NAME TEXT, F_NAME TEXT, S_NAME TEXT, M_NAME TEXT);" +
                 "CREATE TABLE UMFASST(L_ID TEXT, K_NAME TEXT, PROZENT REAL);" +
                 "CREATE TABLE IST_BENACHBART_ZU(LAND1 TEXT, LAND2 TEXT);" +
-                "CREATE TABLE ORGANISATION(O_NAME TEXT, ABKUERZUNG TEXT);" +
+                "CREATE TABLE ORGANISATION(O_NAME TEXT PRIMARY KEY, ABKUERZUNG TEXT);" +
                 "CREATE TABLE HAT_SITZ_IN(ST_NAME TEXT, LT_ID TEXT, L_ID TEXT, ABKUERZUNG TEXT);" +
                 "CREATE TABLE IST_MITGLIED_VON(L_ID TEXT, ABKUERZUNG TEXT, ART TEXT);"
                 );

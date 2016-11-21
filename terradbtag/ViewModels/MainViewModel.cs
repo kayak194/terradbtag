@@ -6,7 +6,6 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
-using Microsoft.Win32;
 using terradbtag.Framework;
 using terradbtag.Models;
 using terradbtag.Services;
@@ -23,7 +22,6 @@ namespace terradbtag.ViewModels
         private int _maximumProgressValue = 1;
         private bool _isInProgress;
         public event PropertyChangedEventHandler PropertyChanged;
-
 
         private Repository Repository { get; set; }
 
@@ -211,18 +209,16 @@ namespace terradbtag.ViewModels
 
         private void ExecuteLoadDatabaseCommand(object o)
         {
-            var ofd = new OpenFileDialog
+            var dbFileOpener = new OpenFileService()
             {
-                Multiselect = false,
-                Filter = "SQLite Database | *.sqlite",
-                CheckFileExists = false
+                AcceptNonExistingFiles = true
             };
-            if (ofd.ShowDialog() != true) return;
-            var file = ofd.FileName;
-            var isNew = !File.Exists(file);
-            Connection.Connect(file);
 
-            if (isNew)
+            if(!dbFileOpener.OpenFile(OpenFileService.SqliteDatabaseFilter)) return;
+
+            Connection.Connect(dbFileOpener.SelectedFile);
+
+            if (!dbFileOpener.SelectedFileExists)
             {
                 new DatabaseService { Connection = Connection }.InitializeDatabase();
             }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using terradbtag.Framework;
 using terradbtag.Models;
@@ -22,13 +23,15 @@ namespace terradbtag.Services
             }
 
             var textFilterSql = "";
-            if (query.TextQuery != "")
+            if (!string.IsNullOrEmpty(query.TextQuery))
             {
                 textFilterSql = $"AND (name LIKE '%{query.TextQuery}%' OR data LIKE '%{query.TextQuery}%')";
             }
 
             var sql =
                 $"SELECT id FROM BusinessObject, Tag WHERE id = business_object {textFilterSql} {tagFilter} GROUP BY id ORDER BY COUNT(id) DESC LIMIT {query.ResultLimit}";
+
+            Debug.WriteLine(sql);
 
             var result = Repository.Connection.Query(sql);
 
