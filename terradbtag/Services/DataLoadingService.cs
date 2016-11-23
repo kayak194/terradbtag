@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Linq;
 using terradbtag.Framework;
 using terradbtag.Models;
@@ -16,10 +15,13 @@ namespace terradbtag.Services
             if (query == null) return false;
 
             var tagFilter = "";
-            if (query.SelectedTags.Count > 0)
+            var countConstraint = "";
+            var selectedTagCount = query.SelectedTags.Count;
+            if (selectedTagCount > 0)
             {
                 var filterList = "'"+string.Join("', '", query.SelectedTags.Select(tag => tag.Content)) + "'";
                 tagFilter = $"AND content IN ({filterList})";
+                countConstraint = $"HAVING COUNT(id) = {selectedTagCount}";
             }
 
             var textFilterSql = "";
@@ -29,7 +31,7 @@ namespace terradbtag.Services
             }
 
             var sql =
-                $"SELECT id FROM BusinessObject, Tag WHERE id = business_object {textFilterSql} {tagFilter} GROUP BY id ORDER BY COUNT(id) DESC LIMIT {query.ResultLimit}";
+                $"SELECT id FROM BusinessObject, Tag WHERE id = business_object {textFilterSql} {tagFilter} GROUP BY id {countConstraint} ORDER BY COUNT(id) DESC LIMIT {query.ResultLimit}";
 
             Debug.WriteLine(sql);
 
