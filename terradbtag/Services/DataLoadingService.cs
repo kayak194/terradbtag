@@ -2,10 +2,11 @@
 using System.Linq;
 using terradbtag.Framework;
 using terradbtag.Models;
+using terradbtag.SqlQueryFactory;
 
 namespace terradbtag.Services
 {
-    class DataLoadingService: Service
+    class DataLoadingService : Service
     {
         public Repository Repository { get; set; }
 
@@ -14,24 +15,8 @@ namespace terradbtag.Services
             var query = args as ISearchQuery;
             if (query == null) return false;
 
-            var tagFilter = "";
-            var countConstraint = "";
-            var selectedTagCount = query.SelectedTags.Count;
-            if (selectedTagCount > 0)
-            {
-                var filterList = "'"+string.Join("', '", query.SelectedTags.Select(tag => tag.Content)) + "'";
-                tagFilter = $"AND content IN ({filterList})";
-                countConstraint = $"HAVING COUNT(id) = {selectedTagCount}";
-            }
-
-            var textFilterSql = "";
-            if (!string.IsNullOrEmpty(query.TextQuery))
-            {
-                textFilterSql = $"AND (name LIKE '%{query.TextQuery}%' OR data LIKE '%{query.TextQuery}%')";
-            }
-
-            var sql =
-                $"SELECT id FROM BusinessObject, Tag WHERE id = business_object {textFilterSql} {tagFilter} GROUP BY id {countConstraint} ORDER BY COUNT(id) DESC LIMIT {query.ResultLimit}";
+            var sql = SearchQuerySqlFactory.GetSql(query);
+            sql += $" SELECT id FROM {SearchQuerySqlFactory.TableName} LIMIT {query.ResultLimit};";
 
             Debug.WriteLine(sql);
 

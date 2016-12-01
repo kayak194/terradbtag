@@ -8,6 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute(".gitignore")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("test.sql")]
 
 

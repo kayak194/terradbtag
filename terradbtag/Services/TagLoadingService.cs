@@ -2,6 +2,7 @@
 using System.Linq;
 using terradbtag.Framework;
 using terradbtag.Models;
+using terradbtag.SqlQueryFactory;
 
 namespace terradbtag.Services
 {
@@ -15,15 +16,17 @@ namespace terradbtag.Services
 
             if (query == null) return false;
 
+            var sql = SearchQuerySqlFactory.GetSql(query);
             var where = "";
             if (query.SelectedTags.Count > 0)
             {
                 var filterList = "'"+string.Join("', '", query.SelectedTags.Select(tag => tag.Content)) + "'";
-                where = $"JOIN (SELECT business_object as bo FROM Tag WHERE content IN ({filterList}) GROUP BY bo HAVING COUNT(business_object) = {query.SelectedTags.Count}) as t2 ON business_object = bo  WHERE content NOT IN ({filterList}) ";
+
+                where = $"WHERE content NOT IN ({filterList}) ";
             }
 
-            var sql =
-                $"SELECT content FROM Tag {where} GROUP BY content ORDER BY COUNT(content) DESC LIMIT {query.TagLimit}";
+            sql +=
+                $"SELECT content FROM Tag JOIN {SearchQuerySqlFactory.TableName} ON {SearchQuerySqlFactory.TableName}.id = Tag.business_object {where} GROUP BY content ORDER BY COUNT(content) DESC LIMIT {query.TagLimit};";
             var tagReader = Connection.Query(sql);
             Debug.WriteLine(sql);
             var i = 0;

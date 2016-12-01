@@ -25,3 +25,5 @@ C:\Users\Kay Keller\RiderProjects\terradbtag\terradbtag\obj\Debug\terradbtag.csp
 C:\Users\Kay Keller\RiderProjects\terradbtag\terradbtag\obj\Debug\TerraDB-TagExplorer.exe
 C:\Users\Kay Keller\RiderProjects\terradbtag\terradbtag\obj\Debug\TerraDB-TagExplorer.pdb
 C:\Users\Kay Keller\RiderProjects\terradbtag\terradbtag\obj\Debug\terradbtag.Properties.Resources.resources
+C:\Users\Kay Keller\RiderProjects\terradbtag\terradbtag\bin\Debug\WordCloudCalculator.dll
+C:\Users\Kay Keller\RiderProjects\terradbtag\terradbtag\obj\Debug\TerraDB-TagExplorer_Content.g.cs

@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Diagnostics;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace terradbtag.WordCloud
@@ -15,7 +16,7 @@ namespace terradbtag.WordCloud
             var childWidth = 0.0;
             var size = new Size(0, 0);
 
-            foreach (UIElement child in InternalChildren)
+            foreach (ContentPresenter child in InternalChildren)
             {
                 child.Measure(new Size(availableSize.Width, availableSize.Height));
 
@@ -38,7 +39,7 @@ namespace terradbtag.WordCloud
 
             var yAxisHeight = 0.0;
 
-            foreach (Button child in InternalChildren)
+            foreach (UIElement child in InternalChildren)
             {
                 if (toggle == false)
                 {
