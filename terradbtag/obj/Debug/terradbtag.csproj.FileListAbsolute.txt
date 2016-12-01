@@ -27,3 +27,31 @@ C:\Users\Kay Keller\RiderProjects\terradbtag\terradbtag\obj\Debug\TerraDB-TagExp
 C:\Users\Kay Keller\RiderProjects\terradbtag\terradbtag\obj\Debug\terradbtag.Properties.Resources.resources
 C:\Users\Kay Keller\RiderProjects\terradbtag\terradbtag\bin\Debug\WordCloudCalculator.dll
 C:\Users\Kay Keller\RiderProjects\terradbtag\terradbtag\obj\Debug\TerraDB-TagExplorer_Content.g.cs
+E:\TerraDBTag\terradbtag\bin\Debug\TerraDB-TagExplorer.exe.config
+E:\TerraDBTag\terradbtag\bin\Debug\TerraDB-TagExplorer.exe
+E:\TerraDBTag\terradbtag\bin\Debug\TerraDB-TagExplorer.pdb
+E:\TerraDBTag\terradbtag\bin\Debug\EntityFramework.dll
+E:\TerraDBTag\terradbtag\bin\Debug\EntityFramework.SqlServer.dll
+E:\TerraDBTag\terradbtag\bin\Debug\System.Data.SQLite.dll
+E:\TerraDBTag\terradbtag\bin\Debug\System.Data.SQLite.EF6.dll
+E:\TerraDBTag\terradbtag\bin\Debug\System.Data.SQLite.Linq.dll
+E:\TerraDBTag\terradbtag\bin\Debug\EntityFramework.xml
+E:\TerraDBTag\terradbtag\bin\Debug\EntityFramework.SqlServer.xml
+E:\TerraDBTag\terradbtag\bin\Debug\System.Data.SQLite.xml
+E:\TerraDBTag\terradbtag\obj\Debug\terradbtag.csprojResolveAssemblyReference.cache
+E:\TerraDBTag\terradbtag\obj\Debug\Views\BusinessObjectEditor.g.cs
+E:\TerraDBTag\terradbtag\obj\Debug\Views\MainWindow.g.cs
+E:\TerraDBTag\terradbtag\obj\Debug\Views\TagCollectionEditor.g.cs
+E:\TerraDBTag\terradbtag\obj\Debug\App.g.cs
+E:\TerraDBTag\terradbtag\obj\Debug\TerraDB-TagExplorer_Content.g.cs
+E:\TerraDBTag\terradbtag\obj\Debug\GeneratedInternalTypeHelper.g.cs
+E:\TerraDBTag\terradbtag\obj\Debug\TerraDB-TagExplorer_MarkupCompile.cache
+E:\TerraDBTag\terradbtag\obj\Debug\TerraDB-TagExplorer_MarkupCompile.lref
+E:\TerraDBTag\terradbtag\obj\Debug\Views\BusinessObjectEditor.baml
+E:\TerraDBTag\terradbtag\obj\Debug\Views\MainWindow.baml
+E:\TerraDBTag\terradbtag\obj\Debug\Views\TagCollectionEditor.baml
+E:\TerraDBTag\terradbtag\obj\Debug\TerraDB-TagExplorer.g.resources
+E:\TerraDBTag\terradbtag\obj\Debug\terradbtag.Properties.Resources.resources
+E:\TerraDBTag\terradbtag\obj\Debug\terradbtag.csproj.GenerateResource.Cache
+E:\TerraDBTag\terradbtag\obj\Debug\TerraDB-TagExplorer.exe
+E:\TerraDBTag\terradbtag\obj\Debug\TerraDB-TagExplorer.pdb
