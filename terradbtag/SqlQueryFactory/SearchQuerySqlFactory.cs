@@ -16,7 +16,7 @@ namespace terradbtag.SqlQueryFactory
                 for (var i = 0; i < selectedTagCount; i++)
                 {
                     tagFilter +=
-                        $"JOIN Tag AS tag{i} ON BusinessObject.id = tag{i}.business_object AND tag{i}.content = '{searchQuery.SelectedTags[i].Content}' ";
+                        $"JOIN Tag AS tag{i} ON BusinessObject.id = tag{i}.business_object AND tag{i}.content = '{searchQuery.SelectedTags[i].Text}' ";
                 }
             }
 
