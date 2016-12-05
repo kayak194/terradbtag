@@ -13,12 +13,12 @@ namespace terradbtag.Converter
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var tags = value as List<Tag>;
-            return tags?.Aggregate("", (current, tag) => current + $"#{tag.Content} ");
+            return tags?.Aggregate("", (current, tag) => current + $"#{tag.Text} ");
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-           return (from Match match in Regex.Matches(value.ToString(), "[#](\\w+)") select new Tag() {Content = match.Groups[1].Value}).ToList();
+           return (from Match match in Regex.Matches(value.ToString(), "[#](\\w+)") select new Tag() {Text = match.Groups[1].Value}).ToList();
         }
     }
 }

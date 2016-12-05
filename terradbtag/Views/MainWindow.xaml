@@ -5,6 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewModels="clr-namespace:terradbtag.ViewModels"
         xmlns:wordCloud="clr-namespace:terradbtag.WordCloud"
+        xmlns:converter="clr-namespace:terradbtag.Converter"
+        xmlns:word="clr-namespace:WordCloudCalculator.Contract.Word;assembly=WordCloudCalculator"
         mc:Ignorable="d"
         Title="TerraDB" Height="350" Width="1038.743" x:Name="TerraDbMainWindow" WindowState="Maximized"
         Icon="../Resources/globe.ico">
@@ -13,7 +15,38 @@
     </Window.DataContext>
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-    </Window.Resources>
+		<converter:WeightedWordToVisualizedWordConverter x:Key="WeightedWordToVisualizedWordConverter"/>
+		<wordCloud:TerraDbWordCloudAppearenceArguments x:Key="AppearenceArguments"/>
+		<Style TargetType="wordCloud:WordCloud">
+			<Style.Setters>
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate TargetType="wordCloud:WordCloud">
+							<ItemsControl>
+								<ItemsControl.ItemsSource>
+									<MultiBinding Converter="{StaticResource WeightedWordToVisualizedWordConverter}" ConverterParameter="{StaticResource AppearenceArguments}">
+										<Binding Path="Tags" RelativeSource="{RelativeSource TemplatedParent}"/>
+										<Binding Path="ActualHeight" RelativeSource="{RelativeSource TemplatedParent}"/>
+										<Binding Path="ActualWidth" RelativeSource="{RelativeSource TemplatedParent}"/>
+									</MultiBinding>
+								</ItemsControl.ItemsSource>
+								<ItemsControl.ItemTemplate>
+									<DataTemplate DataType="word:VisualizedWord">
+										<Button Content="{Binding Text}" FontSize="{Binding FontSize}" Opacity="{Binding Opacity}" Margin="3" Command="{Binding DataContext.SelectTag, ElementName=TerraDbMainWindow}"  CommandParameter="{Binding}" DataContext="{Binding}"/>
+									</DataTemplate>
+								</ItemsControl.ItemTemplate>
+								<ItemsControl.ItemsPanel>
+									<ItemsPanelTemplate>
+										<wordCloud:WordCloudPanel/>
+									</ItemsPanelTemplate>
+								</ItemsControl.ItemsPanel>
+							</ItemsControl>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style.Setters>
+		</Style>
+	</Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -93,27 +126,14 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <Button Content="{Binding Content}" Margin="3" Command="{Binding DataContext.UnSelectTag, ElementName=TerraDbMainWindow}" CommandParameter="{Binding}"/>
+                                    <Button Content="{Binding Text}" Margin="3" Command="{Binding DataContext.UnSelectTag, ElementName=TerraDbMainWindow}" CommandParameter="{Binding}"/>
                                 </StackPanel>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                 </ScrollViewer>
                 <Label Grid.Row="3" Content="In Beziehung stehende Tags" />
-                <ScrollViewer Grid.Row="4">
-                    <ItemsControl ItemsSource="{Binding Tags}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                    <Button Content="{Binding Content}" Margin="3" Command="{Binding DataContext.SelectTag, ElementName=TerraDbMainWindow}"  CommandParameter="{Binding}"/>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                        <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <wordCloud:WordCloudPanel/>
-                                </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                    </ItemsControl>
-                </ScrollViewer>
+				<wordCloud:WordCloud Grid.Row="4" Tags="{Binding Tags}"/>
             </Grid>
         </Grid>
 

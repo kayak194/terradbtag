@@ -37,7 +37,7 @@ namespace terradbtag.Services
                 Id = id,
                 Name = name,
                 Data = data,
-                Tags = tags.Select(s => new Tag { Content = s }).ToList()
+                Tags = tags.Select(s => new Tag { Text = s }).ToList()
             };
 
             Repository.Create(obj);

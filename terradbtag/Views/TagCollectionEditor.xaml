@@ -30,7 +30,7 @@
         <ListBox  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" ItemsSource="{Binding Tags}" SelectedItem="{Binding SelectedTag}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Content}"/>
+                    <TextBlock Text="{Binding Text}"/>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

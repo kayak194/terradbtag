@@ -1,10 +1,11 @@
-﻿using System.Windows;
+﻿using System.Diagnostics;
+using System.Windows;
 using System.Windows.Controls;
 using WordCloudCalculator.Contract;
+using WordCloudCalculator.Contract.Word;
 using WordCloudCalculator.ExtractingWordCloudCalculator;
 using WordCloudCalculator.WordCloudCalculator;
-using WordCloudCalculator.Contract.Visualization;
-using customSize = WordCloudCalculator.Contract.Visualization.Size;
+using VisSize = WordCloudCalculator.Contract.Visualization.Size;
 
 namespace terradbtag.WordCloud
 {
@@ -12,19 +13,19 @@ namespace terradbtag.WordCloud
     ///     INFO: http://ikeptwalking.com/wpf-measureoverride-arrangeoverride-explained/
     ///     Responsible for arranging the given UIChildren in desired cloud shape
     /// </summary>
-    public class WordCloudPanel:Panel
+    public class WordCloudPanel:Canvas
     {
-        public static customSize GetTextMetrics(string text, double size) => new customSize(text.Length, 1);
+        public static VisSize GetTextMetrics(string text, double size) => new VisSize(text.Length, 1);
 
-        protected override System.Windows.Size MeasureOverride(System.Windows.Size availableSize)
+        protected override Size MeasureOverride(System.Windows.Size availableSize)
         {
             var childHeight = 0.0;
             var childWidth = 0.0;
-            var size = new System.Windows.Size(0, 0);
+            var size = new Size(0, 0);
 
             foreach (UIElement child in InternalChildren)
             {
-                child.Measure(new System.Windows.Size(availableSize.Width, availableSize.Height));
+                child.Measure(new Size(availableSize.Width, availableSize.Height));
 
                 if (child.DesiredSize.Width > childWidth)
                 {
@@ -39,39 +40,14 @@ namespace terradbtag.WordCloud
             return size;
         }
 
-        protected override System.Windows.Size ArrangeOverride(System.Windows.Size finalSize)
+        protected override Size ArrangeOverride(Size finalSize)
         {
-
-            var calc = new ExtractingWordCloudCalculator<SimpleAppearenceCalculationMethod>();
-
-            var appearenaceArgs = new WordCloudAppearenceArguments()
+            foreach (ContentPresenter child in InternalChildren)
             {
-                PanelSize = new WordCloudCalculator.Contract.Visualization.Size(finalSize.Width, finalSize.Height),
-                FontSizeRange = new Range(0.0, 15.0),
-                OpacityRange = new Range(0.5, 1.0),
-                WordMargin = WordCloudCalculator.Contract.Visualization.Margin.None,
-                WordSizeCalculator = GetTextMetrics
-            };
-
-            var toggle = false;
-
-            var yAxisHeight = 0.0;
-
-            foreach (UIElement child in InternalChildren)
-            {
-                if (toggle == false)
-                {
-                    var rec = new Rect(new Point(0, yAxisHeight), child.DesiredSize);
-                    child.Arrange(rec);
-                    toggle = true;
-                }
-                else
-                {
-                    yAxisHeight += child.DesiredSize.Height;
-                    var rec = new Rect(new Point(0, finalSize.Height - yAxisHeight), child.DesiredSize);
-                    child.Arrange(rec);
-                    toggle = false;
-                }
+	            var visWord = child.Content as VisualizedWord;
+	            if (visWord == null) continue;
+				var rec = new Rect(new Point(visWord.Position.Left,visWord.Position.Top), new Size(visWord.Size.Width, visWord.Size.Height));
+				child.Arrange(rec);
             }
             return finalSize;
         }

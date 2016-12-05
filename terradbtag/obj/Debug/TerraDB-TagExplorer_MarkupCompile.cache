@@ -4,16 +4,16 @@
 winexe
 C#
 .cs
-E:\TerraDBTag\terradbtag\obj\Debug\
+C:\Users\Kay Keller\RiderProjects\terradbtag\terradbtag\obj\Debug\
 terradbtag
 none
 false
 DEBUG;TRACE
-E:\TerraDBTag\terradbtag\App.xaml
+C:\Users\Kay Keller\RiderProjects\terradbtag\terradbtag\App.xaml
 31179505200
 1-1882406834
-281426064836
-20540811265
+31259449029
+201793038785
 Views\BusinessObjectEditor.xaml;Views\MainWindow.xaml;Views\TagCollectionEditor.xaml;
 
 False

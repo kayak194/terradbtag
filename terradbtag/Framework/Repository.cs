@@ -26,8 +26,8 @@ namespace terradbtag.Framework
 
         private void AddTag(BusinessObject obj, Tag tag)
         {
-            if(string.IsNullOrEmpty(tag.Content)) return;
-            Connection.Execute($"INSERT INTO Tag VALUES (\"{tag.Content}\", \"{obj.Id}\");");
+            if(string.IsNullOrEmpty(tag.Text)) return;
+            Connection.Execute($"INSERT INTO Tag VALUES (\"{tag.Text}\", \"{obj.Id}\");");
         }
 
         private void DeleteTags(string businessObjectId)
@@ -72,7 +72,7 @@ namespace terradbtag.Framework
             {
                 obj.AddTag(new Tag
                 {
-                    Content = query["content"].ToString()
+                    Text = query["content"].ToString()
                 });
             }
             return obj;

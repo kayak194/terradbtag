@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using terradbtag.Framework;
@@ -28,7 +29,7 @@ namespace terradbtag.Services
             var where = "";
             if (query.SelectedTags.Count > 0)
             {
-                var filterList = "'"+string.Join("', '", query.SelectedTags.Select(tag => tag.Content)) + "'";
+                var filterList = "'"+string.Join("', '", query.SelectedTags.Select(tag => tag.Text)) + "'";
 
                 where = $"WHERE content NOT IN ({filterList}) ";
             }
@@ -37,31 +38,15 @@ namespace terradbtag.Services
                 $"SELECT content, count(content) as weight FROM Tag JOIN {SearchQuerySqlFactory.TableName} ON {SearchQuerySqlFactory.TableName}.id = Tag.business_object {where} GROUP BY content ORDER BY COUNT(content) DESC LIMIT {query.TagLimit};";
             var tagReader = Connection.Query(sql);
 
-            var weightedList = new List<WeightedWord>();
+          
 
             Debug.WriteLine(sql);
             var i = 0;
             ReportProgress(i,query.TagLimit);
             while (tagReader.Read())
             {
-                //ReportProgress(i++,query.TagLimit, new Tag{Content = tagReader["content"].ToString()});
-                weightedList.Add(new WeightedWord() { Text = tagReader["content"].ToString(), Weight = tagReader.GetInt32(1) });
+                ReportProgress(i++,query.TagLimit, new Tag{Text = tagReader["content"].ToString(), Weight = Convert.ToInt32(tagReader["weight"])});
             }
-
-            var weightedExtractingWordCloudCalculator = new ExtractingWordCloudCalculator<SimpleAppearenceCalculationMethod>();
-
-            var appearenaceArgs = new WordCloudAppearenceArguments()
-            {
-               // PanelSize = new Size(width, height), //TODO: Where do we get Width and Height
-                FontSizeRange = new Range(0.0, 15.0),
-                OpacityRange = new Range(0.5, 1.0),
-                WordMargin = Margin.None,
-                WordSizeCalculator = GetTextMetrics
-            };
-
-            var ret = weightedExtractingWordCloudCalculator.Calculate(appearenaceArgs, weightedList, row => new WeightedWord { Text = row.Text, Weight = row.Weight });
-
-            ReportProgress(100, 100, ret);        
 
             return true;
         }

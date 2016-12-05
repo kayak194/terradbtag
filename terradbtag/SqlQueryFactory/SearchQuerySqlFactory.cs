@@ -13,7 +13,7 @@ namespace terradbtag.SqlQueryFactory
             var selectedTagCount = searchQuery.SelectedTags.Count;
             if (selectedTagCount > 0)
             {
-                var filterList = $"'{string.Join("', '", searchQuery.SelectedTags.Select(tag => tag.Content))}'";
+                var filterList = $"'{string.Join("', '", searchQuery.SelectedTags.Select(tag => tag.Text))}'";
                 tagFilter = $"AND content IN ({filterList})";
                 countConstraint = $"HAVING COUNT(id) = {selectedTagCount}";
             }
