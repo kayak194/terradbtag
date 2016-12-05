@@ -27,7 +27,7 @@ namespace terradbtag.ViewModels
             {
                 if (args.PropertyName == nameof(SelectedTag) && SelectedTag != null)
                 {
-                    TagContent = SelectedTag.Content;
+                    TagContent = SelectedTag.Text;
                 }
             };
         }
@@ -51,11 +51,11 @@ namespace terradbtag.ViewModels
         {
             if (SelectedTag == null)
             {
-                Tags.Add(new Tag { Content = TagContent });
+                Tags.Add(new Tag { Text = TagContent });
             }
             else
             {
-                SelectedTag.Content = TagContent;
+                SelectedTag.Text = TagContent;
             }
             OnPropertyChanged(nameof(Tags));
         }

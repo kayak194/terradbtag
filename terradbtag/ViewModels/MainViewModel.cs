@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
 using terradbtag.Framework;
 using terradbtag.Models;
 using terradbtag.Services;
+using WordCloudCalculator.Contract.Word;
 
 namespace terradbtag.ViewModels
 {
@@ -16,7 +15,7 @@ namespace terradbtag.ViewModels
     {
         private string _searchRequest;
         private ObservableCollection<BusinessObject> _businessObjectList = new ObservableCollection<BusinessObject>();
-        private ObservableCollection<Tag> _tags = new ObservableCollection<Tag>();
+        private ObservableCollection<IWeightedWord> _tags = new ObservableCollection<IWeightedWord>();
         private bool _isReady;
         private int _currentProgressValue;
         private int _maximumProgressValue = 1;
@@ -79,11 +78,11 @@ namespace terradbtag.ViewModels
 
         private void ExecuteSelectTagCommand(object o)
         {
-            var tag = o  as Tag;
+            var tag = o  as IWord;
 
             if(tag == null) return;
 
-            SelectedTags.Add(tag);
+            SelectedTags.Add(new Tag {Text = tag.Text});
 
              UpdateSearchResult();
         }
@@ -378,7 +377,7 @@ namespace terradbtag.ViewModels
             set { _businessObjectList = value; OnPropertyChanged(); }
         }
 
-        public ObservableCollection<Tag> Tags
+        public ObservableCollection<IWeightedWord> Tags
         {
             get { return _tags; }
             set { _tags = value; OnPropertyChanged(); }
@@ -388,26 +387,19 @@ namespace terradbtag.ViewModels
 
         private void LoadTags(ISearchQuery query)
         {
-            Tags.Clear();
+            var tags = new ObservableCollection<IWeightedWord>();
             var srv = new TagLoadingService {Connection = Connection};
             srv.ProgressChanged += (sender, tuple) =>
             {
                 if(tuple.Item3 != null)
-                    Tags.Add(tuple.Item3 as Tag);
+                    tags.Add(tuple.Item3 as Tag);
             };
-            srv.Finished += (sender, b) =>
+            srv.Finished += (sender, isSucceed) =>
             {
-                if(!b) AlertError(srv.Error);
+				if (!isSucceed) AlertError(srv.Error);
+				else Tags = tags;
             };
             srv.Execute(query);
-        }
-
-        private void ExecuteSearchRequest()
-        {
-            var searchQuery = new SearchQuery()
-            {
-
-            };
         }
     }
 }

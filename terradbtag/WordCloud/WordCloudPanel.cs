@@ -1,6 +1,11 @@
 ﻿using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
+using WordCloudCalculator.Contract;
+using WordCloudCalculator.Contract.Word;
+using WordCloudCalculator.ExtractingWordCloudCalculator;
+using WordCloudCalculator.WordCloudCalculator;
+using VisSize = WordCloudCalculator.Contract.Visualization.Size;
 
 namespace terradbtag.WordCloud
 {
@@ -8,15 +13,17 @@ namespace terradbtag.WordCloud
     ///     INFO: http://ikeptwalking.com/wpf-measureoverride-arrangeoverride-explained/
     ///     Responsible for arranging the given UIChildren in desired cloud shape
     /// </summary>
-    public class WordCloudPanel:Panel
+    public class WordCloudPanel:Canvas
     {
-        protected override Size MeasureOverride(Size availableSize)
+        public static VisSize GetTextMetrics(string text, double size) => new VisSize(text.Length, 1);
+
+        protected override Size MeasureOverride(System.Windows.Size availableSize)
         {
             var childHeight = 0.0;
             var childWidth = 0.0;
             var size = new Size(0, 0);
 
-            foreach (ContentPresenter child in InternalChildren)
+            foreach (UIElement child in InternalChildren)
             {
                 child.Measure(new Size(availableSize.Width, availableSize.Height));
 
@@ -35,25 +42,12 @@ namespace terradbtag.WordCloud
 
         protected override Size ArrangeOverride(Size finalSize)
         {
-            var toggle = false;
-
-            var yAxisHeight = 0.0;
-
-            foreach (UIElement child in InternalChildren)
+            foreach (ContentPresenter child in InternalChildren)
             {
-                if (toggle == false)
-                {
-                    var rec = new Rect(new Point(0, yAxisHeight), child.DesiredSize);
-                    child.Arrange(rec);
-                    toggle = true;
-                }
-                else
-                {
-                    yAxisHeight += child.DesiredSize.Height;
-                    var rec = new Rect(new Point(0, finalSize.Height - yAxisHeight), child.DesiredSize);
-                    child.Arrange(rec);
-                    toggle = false;
-                }
+	            var visWord = child.Content as VisualizedWord;
+	            if (visWord == null) continue;
+				var rec = new Rect(new Point(visWord.Position.Left,visWord.Position.Top), new Size(visWord.Size.Width, visWord.Size.Height));
+				child.Arrange(rec);
             }
             return finalSize;
         }
