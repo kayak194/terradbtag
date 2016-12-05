@@ -1,6 +1,6 @@
 #2. Stand der Technik
 
-Das ERP - System, der Firma TecWare, besitzt aktuell...
+Das ERP - System, der Firma TecWare, besitzt aktuell kategoriefilter(auftrag artikel..), Subfilter(kontakten: Kunden), volltextfilter.
 
 ##2.1 Entwicklungsvorraussetzungen
 
