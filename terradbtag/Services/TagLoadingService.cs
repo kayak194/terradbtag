@@ -26,8 +26,16 @@ namespace terradbtag.Services
             if (query == null) return false;
 
             var sql = SearchQuerySqlFactory.GetSql(query);
+            var where = "";
+            if (query.SelectedTags.Count > 0)
+            {
+                var filterList = "'"+string.Join("', '", query.SelectedTags.Select(tag => tag.Text)) + "'";
+
+                where = $"WHERE content NOT IN ({filterList}) ";
+            }
+
             sql +=
-                $"SELECT content, count(content) as weight FROM Tag JOIN {SearchQuerySqlFactory.TableName} ON {SearchQuerySqlFactory.TableName}.id = Tag.business_object GROUP BY content ORDER BY COUNT(content) DESC LIMIT {query.TagLimit};";
+                $"SELECT content, count(content) as weight FROM Tag JOIN {SearchQuerySqlFactory.TableName} ON {SearchQuerySqlFactory.TableName}.id = Tag.business_object {where} GROUP BY content ORDER BY COUNT(content) DESC LIMIT {query.TagLimit};";
             var tagReader = Connection.Query(sql);
 
           
