@@ -74,8 +74,9 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="WordCloudCalculator, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\externals\WordCloudCalculator.dll</HintPath>
+    <Reference Include="WordCloudCalculator, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WordCloudCalculator.1.0.2\lib\net452\WordCloudCalculator.dll</HintPath>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -85,7 +86,6 @@
     </ApplicationDefinition>
     <Compile Include="Converter\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converter\TagCollectionToStringConverter.cs" />
-    <Compile Include="Converter\WeightedWordToVisualizedWordConverter.cs" />
     <Compile Include="Framework\RelayCommand.cs" />
     <Compile Include="Framework\Repository.cs" />
     <Compile Include="Framework\Service.cs" />
@@ -117,9 +117,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="WordCloud\WordCloud.cs" />
     <Compile Include="WordCloud\TerraDbWordCloudAppearenceArguments.cs" />
-    <Compile Include="WordCloud\WordCloudPanel.cs" />
     <Page Include="Views\BusinessObjectEditor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

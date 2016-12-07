@@ -17,7 +17,7 @@ namespace terradbtag.Models
         public string TypeFiler { get; set; }
         public ObservableCollection<Tag> SelectedTags { get; set; } = new ObservableCollection<Tag>();
         public string TextQuery { get; set; }
-        public int TagLimit { get; } = 20;
-        public int ResultLimit { get; } = 30;
+        public int TagLimit { get; set; } = 20;
+        public int ResultLimit { get; set; } = 30;
     }
 }

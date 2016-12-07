@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -15,7 +16,8 @@ namespace terradbtag.ViewModels
     {
         private string _searchRequest;
         private ObservableCollection<BusinessObject> _businessObjectList = new ObservableCollection<BusinessObject>();
-        private ObservableCollection<IWeightedWord> _tags = new ObservableCollection<IWeightedWord>();
+
+	    private IList<IWeightedWord> _tags = new List<IWeightedWord>();
         private bool _isReady;
         private int _currentProgressValue;
         private int _maximumProgressValue = 1;
@@ -97,7 +99,8 @@ namespace terradbtag.ViewModels
             var query = new SearchQuery
             {
                 SelectedTags = SelectedTags,
-                TextQuery = SearchRequest
+                TextQuery = SearchRequest,
+				TagLimit = 50
             };
 
             LoadTags(query);
@@ -377,7 +380,7 @@ namespace terradbtag.ViewModels
             set { _businessObjectList = value; OnPropertyChanged(); }
         }
 
-        public ObservableCollection<IWeightedWord> Tags
+        public IList<IWeightedWord> Tags
         {
             get { return _tags; }
             set { _tags = value; OnPropertyChanged(); }
@@ -387,7 +390,7 @@ namespace terradbtag.ViewModels
 
         private void LoadTags(ISearchQuery query)
         {
-            var tags = new ObservableCollection<IWeightedWord>();
+	        var tags = new List<IWeightedWord>();
             var srv = new TagLoadingService {Connection = Connection};
             srv.ProgressChanged += (sender, tuple) =>
             {

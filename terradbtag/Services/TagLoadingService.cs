@@ -5,19 +5,12 @@ using System.Linq;
 using terradbtag.Framework;
 using terradbtag.Models;
 using terradbtag.SqlQueryFactory;
-using WordCloudCalculator.Contract;
-using WordCloudCalculator.Contract.Visualization;
-using WordCloudCalculator.Contract.Word;
-using WordCloudCalculator.ExtractingWordCloudCalculator;
-using WordCloudCalculator.WordCloudCalculator;
 
 namespace terradbtag.Services
 {
     class TagLoadingService: Service
     {
         public SqliteDatabaseConnection Connection { get; set; }
-
-        public static Size GetTextMetrics(string text, double size) => new Size(text.Length, 1);
 
         protected override bool ServiceAction(object args)
         {

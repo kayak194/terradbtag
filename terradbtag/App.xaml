@@ -4,6 +4,6 @@
              xmlns:local="clr-namespace:terradbtag"
              StartupUri="Views/MainWindow.xaml">
     <Application.Resources>
-         
-    </Application.Resources>
+		<ResourceDictionary Source="/WordCloudCalculator;component/WPF/WordCloudGui.xaml"/>
+	</Application.Resources>
 </Application>
