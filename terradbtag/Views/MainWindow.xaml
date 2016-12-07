@@ -42,14 +42,12 @@
         </Menu>
 
         <Grid Row="1" Margin="3">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="250" />
-                <ColumnDefinition />
-                <ColumnDefinition Width="250" />
-            </Grid.ColumnDefinitions>
-
-			<ListBox SelectionMode="Multiple" ItemsSource="{Binding Categories}" />
-			<ScrollViewer Grid.Column="1">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition />
+				<ColumnDefinition Width="5"/>
+				<ColumnDefinition MinWidth="250" Width="500" />
+			</Grid.ColumnDefinitions>
+			<ScrollViewer Grid.Column="0">
                 <ItemsControl ItemsSource="{Binding BusinessObjectList}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
@@ -73,7 +71,8 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </ScrollViewer>
-            <Grid Grid.Column="2">
+			<GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch"></GridSplitter>
+			<Grid Grid.Column="2">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
