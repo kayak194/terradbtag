@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 using terradbtag.Framework;
 using terradbtag.Models;
 
@@ -42,6 +43,12 @@ namespace terradbtag.ViewModels
         {
             get { return BusinessObject.Data; }
             set { BusinessObject.Data = value; OnPropertyChanged(); }
+        }
+
+        public BitmapImage Image
+        {
+            get { return BusinessObject.Image; }
+            set { BusinessObject.Image = value; OnPropertyChanged(); }
         }
 
         public List<Tag> Tags

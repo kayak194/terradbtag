@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 using terradbtag.Framework;
 using terradbtag.Models;
 using terradbtag.Services;
@@ -12,12 +16,12 @@ using WordCloudCalculator.Contract.Word;
 
 namespace terradbtag.ViewModels
 {
-    class MainViewModel : INotifyPropertyChanged
+    internal class MainViewModel : INotifyPropertyChanged
     {
         private string _searchRequest;
         private ObservableCollection<BusinessObject> _businessObjectList = new ObservableCollection<BusinessObject>();
 
-	    private IList<IWeightedWord> _tags = new List<IWeightedWord>();
+        private IList<IWeightedWord> _tags = new List<IWeightedWord>();
         private bool _isReady;
         private int _currentProgressValue;
         private int _maximumProgressValue = 1;
@@ -29,7 +33,11 @@ namespace terradbtag.ViewModels
         public bool IsReady
         {
             get { return _isReady; }
-            private set { _isReady = value; OnPropertyChanged(); }
+            private set
+            {
+                _isReady = value;
+                OnPropertyChanged();
+            }
         }
 
         public ICommand LoadDatabaseCommand { get; set; }
@@ -69,9 +77,9 @@ namespace terradbtag.ViewModels
 
         private void ExecuteUnselectTag(object o)
         {
-            var tag = o  as Tag;
+            var tag = o as Tag;
 
-            if(tag == null) return;
+            if (tag == null) return;
 
             SelectedTags.Remove(tag);
 
@@ -80,13 +88,13 @@ namespace terradbtag.ViewModels
 
         private void ExecuteSelectTagCommand(object o)
         {
-            var tag = o  as IWord;
+            var tag = o as IWord;
 
-            if(tag == null) return;
+            if (tag == null) return;
 
             SelectedTags.Add(new Tag {Text = tag.Text});
 
-             UpdateSearchResult();
+            UpdateSearchResult();
         }
 
         private void ExecuteSearchCommand(object o)
@@ -100,7 +108,7 @@ namespace terradbtag.ViewModels
             {
                 SelectedTags = SelectedTags,
                 TextQuery = SearchRequest,
-				TagLimit = 50
+                TagLimit = 50
             };
 
             LoadTags(query);
@@ -136,7 +144,6 @@ namespace terradbtag.ViewModels
                 };
 
                 importer.Execute();
-
             }
             catch (Exception ex)
             {
@@ -146,19 +153,16 @@ namespace terradbtag.ViewModels
 
         private void ExecuteClearDatabaseCommand(object o)
         {
-            new DatabaseService { Connection = Connection }.ResetDatabase();
+            new DatabaseService {Connection = Connection}.ResetDatabase();
             LoadAllDataFromDatabase();
             MessageBox.Show($"Datenbank geleert!", "Erfolg", MessageBoxButton.OK,
-                    MessageBoxImage.Information);
+                MessageBoxImage.Information);
         }
 
         private void ExecuteGenerateDataCommand(object o)
         {
-            var srv = new DataGenerationService { Repository = Repository };
-            srv.ProgressChanged += (sender, tuple) =>
-            {
-                SetProgress(tuple);
-            };
+            var srv = new DataGenerationService {Repository = Repository};
+            srv.ProgressChanged += (sender, tuple) => { SetProgress(tuple); };
             srv.Finished += (sender, isSucceed) =>
             {
                 if (isSucceed)
@@ -216,16 +220,16 @@ namespace terradbtag.ViewModels
                 AcceptNonExistingFiles = true
             };
 
-            if(!dbFileOpener.OpenFile(OpenFileService.SqliteDatabaseFilter)) return;
+            if (!dbFileOpener.OpenFile(OpenFileService.SqliteDatabaseFilter)) return;
 
             Connection.Connect(dbFileOpener.SelectedFile);
 
             if (!dbFileOpener.SelectedFileExists)
             {
-                new DatabaseService { Connection = Connection }.InitializeDatabase();
+                new DatabaseService {Connection = Connection}.InitializeDatabase();
             }
 
-            Repository = new Repository() { Connection = Connection };
+            Repository = new Repository() {Connection = Connection};
 
             BusinessObjectList.Clear();
 
@@ -239,19 +243,31 @@ namespace terradbtag.ViewModels
         public int CurrentProgressValue
         {
             get { return _currentProgressValue; }
-            set { _currentProgressValue = value; OnPropertyChanged(); }
+            set
+            {
+                _currentProgressValue = value;
+                OnPropertyChanged();
+            }
         }
 
         public int MaximumProgressValue
         {
             get { return _maximumProgressValue; }
-            set { _maximumProgressValue = value; OnPropertyChanged(); }
+            set
+            {
+                _maximumProgressValue = value;
+                OnPropertyChanged();
+            }
         }
 
         public bool IsInProgress
         {
             get { return _isInProgress; }
-            set { _isInProgress = value; OnPropertyChanged(); }
+            set
+            {
+                _isInProgress = value;
+                OnPropertyChanged();
+            }
         }
 
         private void SetProgress(Tuple<int, int, object> data)
@@ -281,13 +297,33 @@ namespace terradbtag.ViewModels
         {
             try
             {
-                var srv = new DataLoadingService { Repository = Repository };
+                var srv = new DataLoadingService {Repository = Repository};
 
                 srv.ProgressChanged += (sender, tuple) =>
                 {
                     SetProgress(tuple);
                     if (tuple.Item3 != null)
+                    {
+                        // ToDo: 
+                        try
+                        {
+                            BusinessObject businessObject = tuple.Item3 as BusinessObject;
+                            if (businessObject != null)
+                                businessObject.Image =
+                                    LoadImage(
+                                        Convert.FromBase64CharArray((businessObject.Data).ToCharArray(), 0,
+                                            businessObject.Data.Length));
+                        }
+                        catch (Exception)
+                        {
+                            // Yes, this is bad. Swallowing exceptions is bad and i should feel bad - but it works!
+                            BusinessObject businessObject = tuple.Item3 as BusinessObject;
+                            if (businessObject != null)
+                                businessObject.Image = new BitmapImage();
+                        }
+
                         BusinessObjectList.Add(tuple.Item3 as BusinessObject);
+                    }
                 };
                 srv.Finished += (sender, isSucceed) =>
                 {
@@ -316,7 +352,6 @@ namespace terradbtag.ViewModels
         {
             if (propertyChangedEventArgs.PropertyName == nameof(SearchRequest))
             {
-
             }
         }
 
@@ -344,7 +379,8 @@ namespace terradbtag.ViewModels
                         Repository.Update(obj);
                     }
 
-                    MessageBox.Show($"Objekt {obj.Id} gespeichert", "Erfolg", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show($"Objekt {obj.Id} gespeichert", "Erfolg", MessageBoxButton.OK,
+                        MessageBoxImage.Information);
                     return true;
                 }
                 catch (Exception ex)
@@ -371,38 +407,69 @@ namespace terradbtag.ViewModels
         public string SearchRequest
         {
             get { return _searchRequest; }
-            set { _searchRequest = value; OnPropertyChanged(); }
+            set
+            {
+                _searchRequest = value;
+                OnPropertyChanged();
+            }
         }
 
         public ObservableCollection<BusinessObject> BusinessObjectList
         {
             get { return _businessObjectList; }
-            set { _businessObjectList = value; OnPropertyChanged(); }
+            set
+            {
+                _businessObjectList = value;
+                OnPropertyChanged();
+            }
         }
 
         public IList<IWeightedWord> Tags
         {
             get { return _tags; }
-            set { _tags = value; OnPropertyChanged(); }
+            set
+            {
+                _tags = value;
+                OnPropertyChanged();
+            }
         }
 
         public ObservableCollection<Tag> SelectedTags { get; set; } = new ObservableCollection<Tag>();
 
         private void LoadTags(ISearchQuery query)
         {
-	        var tags = new List<IWeightedWord>();
+            var tags = new List<IWeightedWord>();
             var srv = new TagLoadingService {Connection = Connection};
             srv.ProgressChanged += (sender, tuple) =>
             {
-                if(tuple.Item3 != null)
+                if (tuple.Item3 != null)
                     tags.Add(tuple.Item3 as Tag);
             };
             srv.Finished += (sender, isSucceed) =>
             {
-				if (!isSucceed) AlertError(srv.Error);
-				else Tags = tags;
+                if (!isSucceed) AlertError(srv.Error);
+                else Tags = tags;
             };
             srv.Execute(query);
+        }
+
+        // Stackoverflow saves the day. #WegGefunden
+        private static BitmapImage LoadImage(byte[] imageData)
+        {
+            if (imageData == null || imageData.Length == 0) return null;
+            var image = new BitmapImage();
+            using (var mem = new MemoryStream(imageData))
+            {
+                mem.Position = 0;
+                image.BeginInit();
+                image.CreateOptions = BitmapCreateOptions.PreservePixelFormat;
+                image.CacheOption = BitmapCacheOption.OnLoad;
+                image.UriSource = null;
+                image.StreamSource = mem;
+                image.EndInit();
+            }
+            image.Freeze();
+            return image;
         }
     }
 }

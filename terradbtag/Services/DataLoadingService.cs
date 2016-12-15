@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using terradbtag.Framework;
 using terradbtag.Models;
@@ -29,7 +31,9 @@ namespace terradbtag.Services
             {
                 ReportProgress(i++, query.ResultLimit, Repository.Find(result["id"].ToString()));
             }
+
             return true;
         }
+
     }
 }
