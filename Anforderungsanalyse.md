@@ -64,7 +64,20 @@ Die Aufgabe der Studenten bestand darin, sich eine Form der Eingabemöglichkeit 
 Dialoge entstehen können. Die Ergebnisse wurden im Gruppenmeeting präsentiert und deren Verwendung, im Austausch mit Herrn Stein  diskutiert. 
 
 
+<pre><pre><pre>  <img src="https://github.com/vardoo/terradbtag/blob/Dokumentation/Images/InlVSPopup.PNG" width="200px" height="160px" /><br>
 
+<pre><pre>  <img src="https://github.com/vardoo/terradbtag/blob/Dokumentation/Images/BeispielMaskeOhne%20TE.PNG" width="200px" height="160px" />
+
+<pre><pre><pre>  <img src="https://github.com/vardoo/terradbtag/blob/Dokumentation/Images/SAPmitInline.PNG" width="200px" height="160px" /><br>
+
+<pre><pre><pre>  <img src="https://github.com/vardoo/terradbtag/blob/Dokumentation/Images/SAPmitPopUpPNG.PNG" width="200px" height="160px" />
+
+<pre><pre><pre>  <img src="https://github.com/vardoo/terradbtag/blob/Dokumentation/Images/TwitterLIke.PNG" width="200px" height="160px" /><br>
+
+<pre><pre><pre>  <img src="https://github.com/vardoo/terradbtag/blob/Dokumentation/Images/IDELike.PNG" width="200px" height="160px" />
+
+<pre><pre><pre>  <img src="https://github.com/vardoo/terradbtag/blob/Dokumentation/Images/EvernoteLike.PNG" width="200px" height="160px" /><br>
+<pre>  <img src="https://github.com/vardoo/terradbtag/blob/Dokumentation/Images/ClassikListBox.PNG" width="200px" height="160px" />
 
 
 
