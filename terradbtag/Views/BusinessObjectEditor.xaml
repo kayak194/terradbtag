@@ -7,41 +7,49 @@
         xmlns:viewModels="clr-namespace:terradbtag.ViewModels"
         xmlns:converter="clr-namespace:terradbtag.Converter"
         mc:Ignorable="d"
-        Title="BusinessObject Editor" Height="350" Width="350" WindowStartupLocation="CenterScreen" WindowStyle="ToolWindow">
+        Title="Charakter" Height="300" Width="550" WindowStartupLocation="CenterScreen" WindowStyle="ToolWindow">
     <Window.Resources>
         <ResourceDictionary>
             <converter:TagCollectionToStringConverter x:Key="TagCollectionToStringConverter"/>
             <viewModels:BusinessObjectEditorViewModel x:Key="ViewModel"/>
         </ResourceDictionary>
     </Window.Resources>
-    <Grid d:DataContext="{StaticResource ViewModel}">
+    <Grid d:DataContext="{StaticResource ViewModel}" Margin="5">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="150"/>
+            <ColumnDefinition Width="250"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition />
+            <RowDefinition/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Image Grid.Row="0" Grid.Column="0" Source="{Binding Image}" Stretch="Fill" MaxHeight="100" MaxWidth="100" />
-        <Label Grid.Row="0" Grid.Column="1" Content="Id"/>
-        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Id}"/>
-        <Label Grid.Row="1" Grid.Column="0" Content="Name"/>
-        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Name}"/>
-        <!--<Label Grid.Row="2" Grid.Column="0" Content="Data"/>-->
-        <Label Grid.Row="3" Grid.Column="0" Content="Tags"/>
-        <TextBox Grid.Row="3" Grid.Column="1" Height="100" Text="{Binding Tags, Converter={StaticResource TagCollectionToStringConverter}}" TextWrapping="Wrap"/>
-        <Label Grid.Row="4" Grid.Column="0" Content="Tags"/>
-        <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal">
-            <Button  Content="..." Width="20" Command="{Binding EditTagsCommand}"/>
-        </StackPanel>
-        <Grid Row="6" Column="0" ColumnSpan="2">
+        <Image Grid.Row="0" Grid.Column="0" Source="{Binding Image}" Stretch="Uniform" MaxHeight="250" MaxWidth="250" />
+
+        <Grid Grid.Row="0" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" Content="Id"/>
+            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Id}" VerticalAlignment="Center" Padding="3"/>
+            <Label Grid.Row="1" Grid.Column="0" Content="Name"/>
+            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Name}" VerticalAlignment="Center" Padding="3"/>
+            <Label Grid.Row="2" Grid.Column="0" Content="Tags"/>
+        <TextBox Grid.Row="2" Grid.Column="1" Height="100" Text="{Binding Tags, Converter={StaticResource TagCollectionToStringConverter}}" TextWrapping="Wrap"/>
+            <Label Grid.Row="3" Grid.Column="0" Content="Tags"/>
+            <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal">
+                <Button  Content="..." Width="20" Command="{Binding EditTagsCommand}"/>
+            </StackPanel>
+        </Grid>
+        <Grid Row="1" Column="0" ColumnSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition Width="100"/>

@@ -8,17 +8,17 @@
         xmlns:wordCloud="clr-namespace:terradbtag.WordCloud"
         xmlns:wpf="clr-namespace:WordCloudCalculator.WPF;assembly=WordCloudCalculator"
         mc:Ignorable="d"
-        Title="TerraDB" Height="350" Width="1038.743" x:Name="TerraDbMainWindow" WindowState="Maximized"
+        Title="Disney Explorer" Height="350" Width="1038.743" x:Name="TerraDbMainWindow" WindowState="Maximized"
         Icon="../Resources/globe.ico">
     <Window.DataContext>
         <viewModels:MainViewModel />
     </Window.DataContext>
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-		
-		<wordCloud:TerraDbWordCloudAppearenceArguments x:Key="AppearenceArguments"/>
-		
-	</Window.Resources>
+
+        <wordCloud:TerraDbWordCloudAppearenceArguments x:Key="AppearenceArguments" />
+
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -42,37 +42,42 @@
         </Menu>
 
         <Grid Row="1" Margin="3">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition />
-				<ColumnDefinition Width="5"/>
-				<ColumnDefinition MinWidth="250" Width="500" />
-			</Grid.ColumnDefinitions>
-			<ScrollViewer Grid.Column="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="5" />
+                <ColumnDefinition MinWidth="250" Width="500" />
+            </Grid.ColumnDefinitions>
+            <ScrollViewer Grid.Column="0">
                 <ItemsControl ItemsSource="{Binding BusinessObjectList}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Grid Margin="3">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="*" MinWidth="150" />
-                                    <ColumnDefinition Width="75" />
-                                    <ColumnDefinition Width="75" />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Grid.Column="0" Text="{Binding Id}" Padding="3" />
-                                <TextBlock Grid.Column="1" Text="{Binding Name}" Padding="3" />
-                                <Button Grid.Column="2" Content="Edit"
-                                        Command="{Binding DataContext.EditBusinessObjectCommand, ElementName=TerraDbMainWindow}"
-                                        CommandParameter="{Binding}" />
-                                <Button Grid.Column="3" Content="Delete"
+                            <Border BorderThickness="1" BorderBrush="DeepSkyBlue" CornerRadius="8" Background="AliceBlue" Margin="3" Padding="4">
+                                <Button  Width="100" Command="{Binding DataContext.EditBusinessObjectCommand, ElementName=TerraDbMainWindow}"
+                                        CommandParameter="{Binding}" BorderThickness="0" Background="Transparent">
+                                    <Grid Margin="3">
+                                    <Grid.RowDefinitions>
+                                       <RowDefinition Height="100"/>
+                                       <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Image Grid.Row="0" Grid.Column="0" Source="{Binding Image}" Stretch="Uniform" MaxHeight="100" MaxWidth="100" />
+                                    <TextBlock Grid.Row="1" Text="{Binding Name}" Padding="3" />
+                                    <!--<Button Grid.Column="3" Content="Delete"
                                         Command="{Binding DataContext.DeleteBusinessObjectCommand, ElementName=TerraDbMainWindow}"
-                                        CommandParameter="{Binding}" />
-                            </Grid>
+                                        CommandParameter="{Binding}" />-->
+                                </Grid>
+                            </Button>
+                            </Border>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
                 </ItemsControl>
             </ScrollViewer>
-			<GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch"></GridSplitter>
-			<Grid Grid.Column="2">
+            <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" />
+            <Grid Grid.Column="2">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -85,7 +90,7 @@
                         <ColumnDefinition />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <TextBox Grid.Column="0" Grid.Row="0" Padding="5" Text="{Binding SearchRequest}"/>
+                    <TextBox Grid.Column="0" Grid.Row="0" Padding="5" Text="{Binding SearchRequest}" />
                     <Button Command="{Binding SearchCommand}" Grid.Column="1" Grid.Row="0" Content="Suchen" Padding="5"
                             Margin="3, 0, 0, 0" />
                 </Grid>
@@ -95,19 +100,21 @@
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <Button Content="{Binding Text}" Margin="3" Command="{Binding DataContext.UnSelectTag, ElementName=TerraDbMainWindow}" CommandParameter="{Binding}"/>
+                                    <Button Content="{Binding Text}" Margin="3"
+                                            Command="{Binding DataContext.UnSelectTag, ElementName=TerraDbMainWindow}"
+                                            CommandParameter="{Binding}" />
                                 </StackPanel>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                 </ScrollViewer>
-				<Label Grid.Row="3" Content="In Beziehung stehende Tags" />
-				<wpf:WordCloud Grid.Row="4" Background="Aquamarine"
-					AppearenceArguments="{StaticResource AppearenceArguments}" 
-					Words="{Binding Tags}" 
-					WordAppearenceCalculationMethodType="extractingWordCloudCalculator:SpiralAppearenceCalculationMethod"
-					WordSelectedCommand="{Binding SelectTag}"/>
-			</Grid>
+                <Label Grid.Row="3" Content="In Beziehung stehende Tags" />
+                <wpf:WordCloud Grid.Row="4" Background="Aquamarine"
+                               AppearenceArguments="{StaticResource AppearenceArguments}"
+                               Words="{Binding Tags}"
+                               WordAppearenceCalculationMethodType="extractingWordCloudCalculator:SpiralAppearenceCalculationMethod"
+                               WordSelectedCommand="{Binding SelectTag}" />
+            </Grid>
         </Grid>
 
         <StatusBar Grid.Row="2">

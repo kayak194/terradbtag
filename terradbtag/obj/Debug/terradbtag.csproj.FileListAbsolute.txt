@@ -60,3 +60,34 @@ D:\OneDrive\Studium\7. Semester\Projektseminar\Playground Project\terradbtag\obj
 D:\OneDrive\Studium\7. Semester\Projektseminar\Playground Project\terradbtag\obj\Debug\TerraDB-TagExplorer.g.resources
 D:\OneDrive\Studium\7. Semester\Projektseminar\Playground Project\terradbtag\obj\Debug\terradbtag.Properties.Resources.resources
 D:\OneDrive\Studium\7. Semester\Projektseminar\Playground Project\terradbtag\obj\Debug\terradbtag.csproj.GenerateResource.Cache
+C:\Projekte\terradbtag\terradbtag\bin\Debug\TerraDB-TagExplorer.exe.config
+C:\Projekte\terradbtag\terradbtag\obj\Debug\TerraDB-TagExplorer.exe
+C:\Projekte\terradbtag\terradbtag\obj\Debug\TerraDB-TagExplorer.pdb
+C:\Projekte\terradbtag\terradbtag\bin\Debug\TerraDB-TagExplorer.exe
+C:\Projekte\terradbtag\terradbtag\bin\Debug\TerraDB-TagExplorer.pdb
+C:\Projekte\terradbtag\terradbtag\bin\Debug\EntityFramework.dll
+C:\Projekte\terradbtag\terradbtag\bin\Debug\EntityFramework.SqlServer.dll
+C:\Projekte\terradbtag\terradbtag\bin\Debug\System.Data.SQLite.dll
+C:\Projekte\terradbtag\terradbtag\bin\Debug\System.Data.SQLite.EF6.dll
+C:\Projekte\terradbtag\terradbtag\bin\Debug\System.Data.SQLite.Linq.dll
+C:\Projekte\terradbtag\terradbtag\bin\Debug\WordCloudCalculator.dll
+C:\Projekte\terradbtag\terradbtag\bin\Debug\EntityFramework.xml
+C:\Projekte\terradbtag\terradbtag\bin\Debug\EntityFramework.SqlServer.xml
+C:\Projekte\terradbtag\terradbtag\bin\Debug\System.Data.SQLite.xml
+C:\Projekte\terradbtag\terradbtag\bin\Debug\WordCloudCalculator.pdb
+C:\Projekte\terradbtag\terradbtag\obj\Debug\terradbtag.csprojResolveAssemblyReference.cache
+C:\Projekte\terradbtag\terradbtag\obj\Debug\Views\BusinessObjectEditor.g.cs
+C:\Projekte\terradbtag\terradbtag\obj\Debug\Views\MainWindow.g.cs
+C:\Projekte\terradbtag\terradbtag\obj\Debug\Views\TagCollectionEditor.g.cs
+C:\Projekte\terradbtag\terradbtag\obj\Debug\App.g.cs
+C:\Projekte\terradbtag\terradbtag\obj\Debug\TerraDB-TagExplorer_Content.g.cs
+C:\Projekte\terradbtag\terradbtag\obj\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Projekte\terradbtag\terradbtag\obj\Debug\TerraDB-TagExplorer_MarkupCompile.cache
+C:\Projekte\terradbtag\terradbtag\obj\Debug\TerraDB-TagExplorer_MarkupCompile.lref
+C:\Projekte\terradbtag\terradbtag\obj\Debug\App.baml
+C:\Projekte\terradbtag\terradbtag\obj\Debug\Views\BusinessObjectEditor.baml
+C:\Projekte\terradbtag\terradbtag\obj\Debug\Views\MainWindow.baml
+C:\Projekte\terradbtag\terradbtag\obj\Debug\Views\TagCollectionEditor.baml
+C:\Projekte\terradbtag\terradbtag\obj\Debug\TerraDB-TagExplorer.g.resources
+C:\Projekte\terradbtag\terradbtag\obj\Debug\terradbtag.Properties.Resources.resources
+C:\Projekte\terradbtag\terradbtag\obj\Debug\terradbtag.csproj.GenerateResource.Cache

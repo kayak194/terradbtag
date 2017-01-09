@@ -4,16 +4,16 @@
 winexe
 C#
 .cs
-D:\OneDrive\Studium\7. Semester\Projektseminar\Playground Project\terradbtag\obj\Debug\
+C:\Projekte\terradbtag\terradbtag\obj\Debug\
 terradbtag
 none
 false
 DEBUG;TRACE
-D:\OneDrive\Studium\7. Semester\Projektseminar\Playground Project\terradbtag\App.xaml
+C:\Projekte\terradbtag\terradbtag\App.xaml
 31179505200
 1-1882406834
 282064482936
-20624561227
+20-1210345214
 Views\BusinessObjectEditor.xaml;Views\MainWindow.xaml;Views\TagCollectionEditor.xaml;
 
 False

@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Input;
 
 namespace terradbtag.Views
 {
@@ -10,6 +11,11 @@ namespace terradbtag.Views
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void Control_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+           
         }
     }
 }
