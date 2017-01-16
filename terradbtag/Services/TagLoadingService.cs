@@ -74,7 +74,7 @@ namespace terradbtag.Services
                 };
 
                 if (i < 5)
-                    Logger.Log($"[{tag.Weight:00}] {tag.Text}");
+                    Logger.Log($"> [{tag.Weight:00}] {tag.Text}");
 
                 ReportProgress(i++,query.TagLimit, tag);
             }

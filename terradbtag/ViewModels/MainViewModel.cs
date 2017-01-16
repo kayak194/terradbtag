@@ -302,6 +302,8 @@ namespace terradbtag.ViewModels
             MessageBox.Show(message, "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
+        private Dictionary<string, BitmapImage> BusinessObjectImageCache = new Dictionary<string, BitmapImage>();
+
         private void LoadBusinessObjects(ISearchQuery query)
         {
             try
@@ -311,28 +313,33 @@ namespace terradbtag.ViewModels
                 srv.ProgressChanged += (sender, tuple) =>
                 {
                     SetProgress(tuple);
-                    if (tuple.Item3 != null)
+                    var businessObject = tuple.Item3 as BusinessObject;
+                    if (businessObject == null) return;
+
+                    if (BusinessObjectImageCache.ContainsKey(businessObject.Id))
                     {
-                        // ToDo: 
+                        businessObject.Image = BusinessObjectImageCache[businessObject.Id];
+                    }
+                    else
+                    {
                         try
                         {
-                            BusinessObject businessObject = tuple.Item3 as BusinessObject;
-                            if (businessObject != null)
-                                businessObject.Image =
-                                    LoadImage(
-                                        Convert.FromBase64CharArray((businessObject.Data).ToCharArray(), 0,
-                                            businessObject.Data.Length));
+                            businessObject.Image =
+                                LoadImage(
+                                    Convert.FromBase64CharArray(businessObject.Data.ToCharArray(), 0,
+                                        businessObject.Data.Length)
+                                );
                         }
-                        catch (Exception)
+                        catch (Exception ex)
                         {
-                            // Yes, this is bad. Swallowing exceptions is bad and i should feel bad - but it works!
-                            BusinessObject businessObject = tuple.Item3 as BusinessObject;
-                            if (businessObject != null)
-                                businessObject.Image = new BitmapImage();
+                            Logger.LogError("Es ist ein Fehler Aufgetreten!: " + ex.Message);
+                            businessObject.Image = new BitmapImage();
                         }
 
-                        BusinessObjectList.Add(tuple.Item3 as BusinessObject);
+                        BusinessObjectImageCache.Add(businessObject.Id, businessObject.Image);
                     }
+
+                    BusinessObjectList.Add(businessObject);
                 };
                 srv.Finished += (sender, isSucceed) =>
                 {
