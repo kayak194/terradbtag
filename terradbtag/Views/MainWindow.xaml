@@ -7,6 +7,7 @@
         xmlns:extractingWordCloudCalculator="clr-namespace:WordCloudCalculator.ExtractingWordCloudCalculator;assembly=WordCloudCalculator"
         xmlns:wordCloud="clr-namespace:terradbtag.WordCloud"
         xmlns:wpf="clr-namespace:WordCloudCalculator.WPF;assembly=WordCloudCalculator"
+        xmlns:framework="clr-namespace:terradbtag.Framework"
         mc:Ignorable="d"
         Title="Disney Explorer" Height="350" Width="1038.743" x:Name="TerraDbMainWindow" WindowState="Maximized"
         Icon="../Resources/globe.ico">
@@ -47,35 +48,44 @@
                 <ColumnDefinition Width="5" />
                 <ColumnDefinition MinWidth="250" Width="500" />
             </Grid.ColumnDefinitions>
-            <ScrollViewer Grid.Column="0">
-                <ItemsControl ItemsSource="{Binding BusinessObjectList}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Border BorderThickness="1" BorderBrush="DeepSkyBlue" CornerRadius="8" Background="AliceBlue" Margin="3" Padding="4">
-                                <Button  Width="100" Command="{Binding DataContext.EditBusinessObjectCommand, ElementName=TerraDbMainWindow}"
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="5"/>
+                    <RowDefinition Height="250"/>
+                </Grid.RowDefinitions>
+                <ScrollViewer Grid.Column="0" Grid.Row="0">
+                    <ItemsControl ItemsSource="{Binding BusinessObjectList}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderThickness="1" BorderBrush="DeepSkyBlue" CornerRadius="8" Background="AliceBlue" Margin="3" Padding="4">
+                                    <Button  Width="100" Command="{Binding DataContext.EditBusinessObjectCommand, ElementName=TerraDbMainWindow}"
                                         CommandParameter="{Binding}" BorderThickness="0" Background="Transparent">
-                                    <Grid Margin="3">
-                                    <Grid.RowDefinitions>
-                                       <RowDefinition Height="100"/>
-                                       <RowDefinition Height="Auto"/>
-                                    </Grid.RowDefinitions>
-                                    <Image Grid.Row="0" Grid.Column="0" Source="{Binding Image}" Stretch="Uniform" MaxHeight="100" MaxWidth="100" />
-                                    <TextBlock Grid.Row="1" Text="{Binding Name}" Padding="3" />
-                                    <!--<Button Grid.Column="3" Content="Delete"
+                                        <Grid Margin="3">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="100"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Image Grid.Row="0" Grid.Column="0" Source="{Binding Image}" Stretch="Uniform" MaxHeight="100" MaxWidth="100" />
+                                            <TextBlock Grid.Row="1" Text="{Binding Name}" Padding="3" />
+                                            <!--<Button Grid.Column="3" Content="Delete"
                                         Command="{Binding DataContext.DeleteBusinessObjectCommand, ElementName=TerraDbMainWindow}"
                                         CommandParameter="{Binding}" />-->
-                                </Grid>
-                            </Button>
-                            </Border>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <WrapPanel/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                </ItemsControl>
-            </ScrollViewer>
+                                        </Grid>
+                                    </Button>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                </ScrollViewer>
+                <GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch" />
+                <ListBox Grid.Row="2" ItemsSource="{Binding Source={x:Static framework:Logger.Logs}}"  ScrollViewer.VerticalScrollBarVisibility="Visible" BorderThickness="0"/>
+            </Grid>
             <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" />
             <Grid Grid.Column="2">
                 <Grid.RowDefinitions>

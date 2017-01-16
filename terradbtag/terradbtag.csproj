@@ -97,6 +97,7 @@
     <Compile Include="Services\DatabaseService.cs" />
     <Compile Include="Services\DataGenerationService.cs" />
     <Compile Include="Services\DataLoadingService.cs" />
+    <Compile Include="Framework\Logger.cs" />
     <Compile Include="Services\OpenFileService.cs" />
     <Compile Include="Services\TagLoadingService.cs" />
     <Compile Include="Services\TerraConvertionService.cs" />
@@ -148,6 +149,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

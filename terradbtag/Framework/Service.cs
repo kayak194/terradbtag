@@ -1,46 +1,31 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Windows;
+using terradbtag.Properties;
 
 namespace terradbtag.Framework
 {
     class Service
     {
-        private BackgroundWorker BackgroundWorker { get; } = new BackgroundWorker { WorkerReportsProgress = true };
-
-        public Service()
-        {
-            BackgroundWorker.DoWork += DoWork;
-            BackgroundWorker.ProgressChanged +=
-                (sender, args) =>
-                {
-                    var state = args.UserState as Tuple<int, object>;
-                    if(state == null) return;
-                    OnProgressChanged(args.ProgressPercentage, state.Item1, state.Item2);
-                };
-            BackgroundWorker.RunWorkerCompleted += (sender, args) =>
-            {
-                var isSuceed = args.Result is bool && (bool)args.Result;
-                if (!isSuceed) Error = args.Result.ToString();
-                OnFinished(isSuceed);
-            };
-        }
-
-        private void DoWork(object sender, DoWorkEventArgs doWorkEventArgs)
-        {
-            try
-            {
-                doWorkEventArgs.Result = ServiceAction(doWorkEventArgs.Argument);
-            }
-            catch (Exception ex)
-            {
-                doWorkEventArgs.Result = ex.Message;
-            }
-        }
-
         public void Execute(object args = null)
         {
             Error = string.Empty;
-            BackgroundWorker.RunWorkerAsync(args);
+            Application.Current.Dispatcher.InvokeAsync(() =>
+            {
+                try
+                {
+                    if (ServiceAction(args))
+                    {
+                        OnFinished(true);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Error = ex.Message;
+                    OnFinished(false);
+                }
+                
+            });
         }
 
         public event EventHandler<Tuple<int, int, object>> ProgressChanged;
@@ -61,7 +46,7 @@ namespace terradbtag.Framework
 
         protected void ReportProgress(int progress, int max, object data = null)
         {
-            BackgroundWorker.ReportProgress(progress,new Tuple<int,object>(max, data));
+            OnProgressChanged(progress, max, data);
         }
 
         public object Result { get; set; }

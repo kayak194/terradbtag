@@ -16,6 +16,8 @@ namespace terradbtag.Services
         {
             var query = args as ISearchQuery;
 
+            Logger.Log("Loading some fancy Tags!");
+
             if (query == null) return false;
 
             var sql = SearchQuerySqlFactory.GetSql(query);
