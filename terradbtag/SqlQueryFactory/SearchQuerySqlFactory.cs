@@ -24,7 +24,7 @@ namespace terradbtag.SqlQueryFactory
             if (!string.IsNullOrEmpty(searchQuery.TextQuery))
             {
                 textFilterSql =
-                    $"WHERE (name LIKE '%{searchQuery.TextQuery}%' OR data LIKE '%{searchQuery.TextQuery}%')";
+                    $"WHERE name LIKE '%{searchQuery.TextQuery}%'";
             }
 
             var sql =

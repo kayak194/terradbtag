@@ -20,6 +20,38 @@ namespace terradbtag.Services
             var sql = SearchQuerySqlFactory.GetSql(query);
             sql += $" SELECT id FROM {SearchQuerySqlFactory.TableName} LIMIT {query.ResultLimit};";
 
+            var filterText = "";
+
+            if (query.SelectedTags.Count > 0)
+            {
+                var tagText = "";
+                var selectedTagsCount = query.SelectedTags.Count;
+                if (selectedTagsCount == 1)
+                {
+                    tagText = query.SelectedTags[0].Text;
+                }
+                else
+                {
+                    var commaTags = query.SelectedTags.Take(selectedTagsCount - 1);
+                    tagText += string.Join(", ", commaTags.Select(tag => tag.Text));
+                    tagText += " und " + query.SelectedTags[selectedTagsCount - 1].Text;
+                }
+                filterText += $", die mit {tagText} getaggt wurden";
+            }
+
+            if (!string.IsNullOrEmpty(query.TextQuery))
+            {
+                if (filterText.Length != 0) filterText += " und ";
+                else
+                {
+                    filterText += ", die ";
+                }
+
+                filterText += $"\"{query.TextQuery}\" enthalten";
+            }
+
+            Logger.Log($"Lade Figuren{filterText}.");
+
             Debug.WriteLine(sql);
 
             var result = Repository.Connection.Query(sql);

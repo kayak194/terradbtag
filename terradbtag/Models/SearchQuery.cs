@@ -4,7 +4,7 @@ namespace terradbtag.Models
 {
     public class SearchQuery : ISearchQuery
     {
-        public SearchQuery(string typeFilter = "", string textQuery = "", params Tag[] tags)
+        public SearchQuery(string typeFilter = "", string textQuery = null, params Tag[] tags)
         {
             TypeFiler = typeFilter;
             TextQuery = textQuery;

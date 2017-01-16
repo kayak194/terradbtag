@@ -92,6 +92,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="250" />
+                    <RowDefinition Height="5" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition />
                 </Grid.RowDefinitions>
@@ -99,10 +100,16 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                         <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <TextBox Grid.Column="0" Grid.Row="0" Padding="5" Text="{Binding SearchRequest}" />
-                    <Button Command="{Binding SearchCommand}" Grid.Column="1" Grid.Row="0" Content="Suchen" Padding="5"
-                            Margin="3, 0, 0, 0" />
+                    <TextBox Grid.Column="0" Grid.Row="0" Padding="5" Text="{Binding SearchRequest, UpdateSourceTrigger=PropertyChanged}">
+                       <TextBox.InputBindings>
+                           <KeyBinding Key="Enter" Command="{Binding SearchCommand}"/>
+                           <KeyBinding Key="Escape" Command="{Binding ClearSearchCommand}"/>
+                       </TextBox.InputBindings>
+                    </TextBox>
+                    <Button Command="{Binding SearchCommand}" Grid.Column="1" Grid.Row="0" Content="Suchen" Padding="5" Margin="3, 0, 0, 0" />
+                    <Button Command="{Binding ClearSearchCommand}" Grid.Column="2" Grid.Row="0" Content="X" Padding="5" Margin="3, 0, 0, 0" />
                 </Grid>
                 <Label Grid.Row="1" Content="Ausgewählte Tags" />
                 <ScrollViewer Grid.Row="2">
@@ -118,8 +125,9 @@
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                 </ScrollViewer>
-                <Label Grid.Row="3" Content="In Beziehung stehende Tags" />
-                <wpf:WordCloud Grid.Row="4" Background="Aquamarine"
+                <GridSplitter Grid.Row="3" Height="5" HorizontalAlignment="Stretch"/>
+                <Label Grid.Row="4" Content="In Beziehung stehende Tags" />
+                <wpf:WordCloud Grid.Row="5" Background="Aquamarine"
                                AppearenceArguments="{StaticResource AppearenceArguments}"
                                Words="{Binding Tags}"
                                WordAppearenceCalculationMethodType="extractingWordCloudCalculator:SpiralAppearenceCalculationMethod"

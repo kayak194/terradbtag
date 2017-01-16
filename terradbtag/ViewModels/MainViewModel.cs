@@ -48,6 +48,7 @@ namespace terradbtag.ViewModels
         public ICommand EditBusinessObjectCommand { get; set; }
         public ICommand ClearDatabaseCommand { get; set; }
         public ICommand SearchCommand { get; set; }
+        public ICommand ClearSearchCommand { get; set; }
 
         public ICommand SelectTag { get; set; }
         public ICommand UnSelectTag { get; set; }
@@ -70,9 +71,16 @@ namespace terradbtag.ViewModels
             ConvertTerraDbCommand = new RelayCommand(ExecuteConvertTerraDbCommand);
             ClearDatabaseCommand = new RelayCommand(ExecuteClearDatabaseCommand);
             SearchCommand = new RelayCommand(ExecuteSearchCommand);
+            ClearSearchCommand = new RelayCommand(ExecuteClearSearchCommand);
             SelectTag = new RelayCommand(ExecuteSelectTagCommand);
             UnSelectTag = new RelayCommand(ExecuteUnselectTag);
             IsReady = false;
+        }
+
+        private void ExecuteClearSearchCommand(object o)
+        {
+            SearchRequest = null;
+            UpdateSearchResult();
         }
 
         private void ExecuteUnselectTag(object o)
@@ -104,6 +112,7 @@ namespace terradbtag.ViewModels
 
         private void UpdateSearchResult()
         {
+            Logger.Clear();
             var query = new SearchQuery
             {
                 SelectedTags = SelectedTags,
