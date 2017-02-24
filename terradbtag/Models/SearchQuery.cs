@@ -6,7 +6,7 @@ namespace terradbtag.Models
     {
         public SearchQuery(string typeFilter = "", string textQuery = null, params Tag[] tags)
         {
-            TypeFiler = typeFilter;
+            TypeFilter = typeFilter;
             TextQuery = textQuery;
             foreach (var tag in tags)
             {
@@ -14,7 +14,7 @@ namespace terradbtag.Models
             }
         }
         public static readonly ISearchQuery NoFilter = new SearchQuery();
-        public string TypeFiler { get; set; }
+        public string TypeFilter { get; set; }
         public ObservableCollection<Tag> SelectedTags { get; set; } = new ObservableCollection<Tag>();
         public string TextQuery { get; set; }
         public int TagLimit { get; set; } = 20;

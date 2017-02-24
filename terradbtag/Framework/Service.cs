@@ -49,8 +49,6 @@ namespace terradbtag.Framework
             OnProgressChanged(progress, max, data);
         }
 
-        public object Result { get; set; }
-
         protected virtual bool ServiceAction(object args)
         {
             return true;

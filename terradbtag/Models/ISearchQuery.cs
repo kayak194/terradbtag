@@ -4,7 +4,7 @@ namespace terradbtag.Models
 {
     public interface ISearchQuery
     {
-        string TypeFiler { get; }
+        string TypeFilter { get; }
         ObservableCollection<Tag> SelectedTags { get; }
         string TextQuery { get; }
         int TagLimit { get; }

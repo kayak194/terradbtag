@@ -53,6 +53,8 @@ namespace terradbtag.ViewModels
         public ICommand SelectTag { get; set; }
         public ICommand UnSelectTag { get; set; }
 
+        public ICommand ExportGraphCommand { get; set; }
+
         private SqliteDatabaseConnection Connection { get; } = new SqliteDatabaseConnection();
 
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -74,7 +76,28 @@ namespace terradbtag.ViewModels
             ClearSearchCommand = new RelayCommand(ExecuteClearSearchCommand);
             SelectTag = new RelayCommand(ExecuteSelectTagCommand);
             UnSelectTag = new RelayCommand(ExecuteUnselectTag);
+            ExportGraphCommand = new RelayCommand(ExecuteExportGraphCommand);
             IsReady = false;
+        }
+
+        private void ExecuteExportGraphCommand(object o)
+        {
+            var srv = new GraphExportService()
+            {
+                Connection = Connection
+            };
+            srv.Finished += (sender, succeed) =>
+            {
+                if (succeed)
+                {
+                    MessageBox.Show("Daten exportiert!");
+                }
+                else
+                {
+                    MessageBox.Show(srv.Error, "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            };
+            srv.Execute();
         }
 
         private void ExecuteClearSearchCommand(object o)

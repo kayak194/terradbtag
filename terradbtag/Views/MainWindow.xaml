@@ -39,6 +39,8 @@
                 <MenuItem Header="TerraDB XML konvertieren" Command="{Binding ConvertTerraDbCommand}" />
                 <MenuItem Header="TerraDB Daten importieren" Command="{Binding GenerateDataCommand}"
                           IsEnabled="{Binding IsReady}" />
+                <Separator/>
+                <MenuItem Header="Export As Cypher Graph" Command="{Binding ExportGraphCommand}"/>
             </MenuItem>
         </Menu>
 

@@ -98,6 +98,7 @@
     <Compile Include="Services\DataGenerationService.cs" />
     <Compile Include="Services\DataLoadingService.cs" />
     <Compile Include="Framework\Logger.cs" />
+    <Compile Include="Services\GraphExportService.cs" />
     <Compile Include="Services\OpenFileService.cs" />
     <Compile Include="Services\TagLoadingService.cs" />
     <Compile Include="Services\TerraConvertionService.cs" />
